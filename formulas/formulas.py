@@ -203,7 +203,7 @@ def slope(x1, y1, x2, y2):
 		print(slope)
 	else:
 		print(y)
-		print("———")
+		print(u"\u2014\u2014\u2014")
 		print(x)
 
 def distance(s, t):
