@@ -32,7 +32,7 @@ if x == False:
 	if x.lower() != 'n':
 		print(style.output + "Updating formulas...")
 		os.chdir("plugins")
-		update("https://raw.githubusercontent.com/TabulateJarl8/calcplugins/master/formulas/formulas.py", __file__)
+		update(__file__, "https://raw.githubusercontent.com/TabulateJarl8/calcplugins/master/formulas/formulas.py")
 		os.chdir("..")
 		print("")
 		print(style.important + "Formulas Updated. Please Restart the Calculator." + style.normal)
@@ -45,7 +45,10 @@ def install():
 	else:
 		os.chdir("plugins")
 		url = 'https://raw.githubusercontent.com/TabulateJarl8/calcplugins/master/formulas/flib.py'
-		wget.download(url)
+		for i in tqdm(range(1), desc="Downloading flib..."):
+			path = __file__
+			path = path.replace("formulas.py", "flib.py")
+			urllib.request.urlretrieve(url, path)
 		os.chdir("..")
 		import plugins.flib
 

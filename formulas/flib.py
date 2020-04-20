@@ -16,7 +16,7 @@ if x == False:
 		print(style.output + "Updating flib...")
 		os.chdir("plugins")
 			
-		update("https://raw.githubusercontent.com/TabulateJarl8/calcplugins/master/formulas/flib.py", __file__)
+		update(__file__, "https://raw.githubusercontent.com/TabulateJarl8/calcplugins/master/formulas/flib.py")
 		os.chdir("..")
 		print("")
 		print(style.important + "flib Updated. Please Restart the Calculator." + style.normal)
