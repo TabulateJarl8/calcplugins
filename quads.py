@@ -50,4 +50,4 @@ def quadWord():
 	print(aOs)	
 	
 def help():
-	print(Fore.GREEN + "quadWord() - Find Parabolla from Quadratic Equation")
+	print(style.output + "quadWord() - Find Parabolla from Quadratic Equation")

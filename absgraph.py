@@ -17,4 +17,4 @@ def help():
 	print(style.output + "ABSGraph Help")
 	print("")
 	print(style.output + "Syntax")
-	print(style.output + "absGraph(Vertex X, Vertex Y, Slope, Is Graph Upside Down [True/(False)]")
+	print(style.output + "absGraph(Vertex X, Vertex Y, Slope, Is Graph Upside Down [True/(False)])")
