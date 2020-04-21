@@ -96,6 +96,18 @@ def surfaceAreaSphere(r):
 	area = area * 4
 	area = area * math.pi
 	print(style.answer + str(area))
+	
+def surfaceAreaCube(s):
+	area = s ** 2
+	area *= 6
+	print(style.answer + str(area))
+	
+def surfaceAreaRectangularPrism(a, b, c):
+	first = 2 * a * b
+	second = 2 * b * c
+	third = 2 * a * c
+	area = first + second + third
+	print(style.answer + str(area))
 
 def volumeCube(s):
 	vol = s ** 3
@@ -261,7 +273,7 @@ def abbrList():
 
 def calcs():
 	print(style.important + "Area")
-	print(style.output + "areaSquare(l)")
+	print(style.output + "areaSquare(<length>)")
 	print("areaRectangle(<length>, <width>)")
 	print("areaTriangle(<base>, <height>)")
 	print("areaRhombus(<Large Diagonal>, <Small Diagonal>)")
@@ -272,6 +284,8 @@ def calcs():
 	print(style.important + "Surface Area")
 	print(style.output + "surfaceAreaCone(<radius>, <Slant Height>)")
 	print("surfaceAreaSphere(<radius>)")
+	print("surfaceAreaCube(<side>)")
+	print("surfaceAreaRectangularPrism(<side 1>, <side 2>, <side 3>)")
 	print("")
 	print(style.important + "Volume")
 	print(style.output + "volumeCube(<side>)")
