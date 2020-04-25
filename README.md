@@ -1,5 +1,5 @@
 # calcplugins
-A collection of my plugins for ImaginaryInfinity-Calculator. All of my plugins come with a ``*pluginname*.help()`` function to get you started.
+A collection of my plugins for [ImaginaryInfinity-Calculator](https://github.com/TurboWafflz/ImaginaryInfinity-Calculator). All of my plugins come with a ``*pluginname*.help()`` function to get you started.
 
 ----
 
