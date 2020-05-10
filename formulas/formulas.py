@@ -85,6 +85,18 @@ def areaCircle(r):
 	area = r ** 2
 	area = area * math.pi
 	print(style.answer + str(area))
+	
+def areaRegularPentagon(s):
+	s = s ** 2
+	print(style.answer + str(1.720 * s))
+	
+def areaRegularHexagon(s):
+	s = s ** 2
+	print(style.answer + str(2.598 * s))
+
+def areaRegularOctogon(s):
+	s = s ** 2
+	print(style.answer + str(4.828 * s))
 
 def surfaceAreaCone(r, s):
 	area = math.pi * r
@@ -279,6 +291,9 @@ def calcs():
 	print("areaRhombus(<Large Diagonal>, <Small Diagonal>)")
 	print("areaTrapezoid(<Large Side>, <Small Side>, <Height>)")
 	print("areaRegularPolygon(<perimeter>, <apothem>)")
+	print("areaRegularPentagon(<side>)")
+	print("areaRegularHexagon(<side>)")
+	print("areaRegularOctogon(<side>)")
 	print("areaCircle(<radius>)")
 	print("")
 	print(style.important + "Surface Area")
