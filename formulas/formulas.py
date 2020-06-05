@@ -263,7 +263,7 @@ def help():
 	if not 'flib.py' in os.listdir("plugins"):
 		print(style.important + "Please type formulas.install() to install needed libraries")
 		print("")
-	print(style.output + "Type formulas.calcs() to get a list of supported calculations and syntaxes or formulas.abbrList() to get a list of abbreviations. You can also inpuy values out of order by directly specifying their values. Eg: quadForm(b=3, a=9, c=10)")
+	print(style.output + "Type formulas.calcs() to get a list of supported calculations and syntaxes or formulas.abbrList() to get a list of abbreviations. You can also input values out of order by directly specifying their values. Eg: quadForm(b=3, a=9, c=10)")
 
 def abbrList():
 	print(style.output + "l - Length")
