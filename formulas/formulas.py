@@ -6,7 +6,14 @@ import os
 import urllib.request
 from tqdm import tqdm
 from update_check import *
-style=darkStyle
+try:
+	import configparser
+	import themes
+	config = configparser.ConfigParser()
+	config.read("config.ini")
+	exec("style = themes." + config["appearance"]["theme"] + "." + config["appearance"]["theme"])
+except:
+	style=darkStyle
 
 try:
 	import plugins.flib
