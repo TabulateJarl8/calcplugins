@@ -1,6 +1,13 @@
 import re
 from plugins.core import *
-style = darkStyle
+try:
+	import configparser
+	import themes
+	config = configparser.ConfigParser()
+	config.read("config.ini")
+	exec("style = themes." + config["appearance"]["theme"] + "." + config["appearance"]["theme"])
+except:
+	style=darkStyle
 def absGraph(x, y, slope, upsidedown=False):
 	equ = "y="
 	if upsidedown == True:
