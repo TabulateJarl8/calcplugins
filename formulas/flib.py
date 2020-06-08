@@ -4,7 +4,14 @@ import os
 from update_check import *
 import time
 from tqdm import tqdm
-style = darkStyle		
+try:
+	import configparser
+	import themes
+	config = configparser.ConfigParser()
+	config.read("config.ini")
+	exec("style = themes." + config["appearance"]["theme"] + "." + config["appearance"]["theme"])
+except:
+	style=darkStyle		
 
 #Updater
 print("Checking for updates...")
