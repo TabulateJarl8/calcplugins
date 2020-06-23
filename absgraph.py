@@ -1,13 +1,6 @@
 import re
 from plugins.core import *
-try:
-	import configparser
-	import themes
-	config = configparser.ConfigParser()
-	config.read("config.ini")
-	exec("style = themes." + config["appearance"]["theme"] + "." + config["appearance"]["theme"])
-except:
-	style=darkStyle
+
 def absGraph(x, y, slope, upsidedown=False):
 	equ = "y="
 	if upsidedown == True:
@@ -21,7 +14,7 @@ def absGraph(x, y, slope, upsidedown=False):
 		equ = equ.replace("1", "", 1)
 	print(equ)
 def help():
-	print(style.output + "ABSGraph Help")
+	print(theme["styles"]["output"] + "ABSGraph Help")
 	print("")
-	print(style.output + "Syntax")
-	print(style.output + "absGraph(Vertex X, Vertex Y, Slope, Is Graph Upside Down [True/(False)])")
+	print(theme["styles"]["output"] + "Syntax")
+	print(theme["styles"]["output"] + "absGraph(Vertex X, Vertex Y, Slope, Is Graph Upside Down [True/(False)])")

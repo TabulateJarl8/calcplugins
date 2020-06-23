@@ -1,12 +1,4 @@
 from plugins.core import *
-try:
-	import configparser
-	import themes
-	config = configparser.ConfigParser()
-	config.read("config.ini")
-	exec("style = themes." + config["appearance"]["theme"] + "." + config["appearance"]["theme"])
-except:
-	style=darkStyle
 
 def countOdds(startnum, endnum, showNums=False):
 	even = []
@@ -18,14 +10,14 @@ def countOdds(startnum, endnum, showNums=False):
 		else:
 			odd.append(i)
 		i += 1
-	print(style.output + "There are " + style.important + str(len(odd)) + style.output + " odds and " + style.important + str(len(even)) + style.output + " evens")
+	print(theme["styles"]["output"] + "There are " + theme["styles"]["important"] + str(len(odd)) + theme["styles"]["output"] + " odds and " + theme["styles"]["important"] + str(len(even)) + theme["styles"]["output"] + " evens")
 	if showNums == True:
 		print("Odds: ")
 		print(odd)
 		print("Evens:")
 		print(even)
 def help():
-	print(style.output + "Odds Help")
+	print(theme["styles"]["output"] + "Odds Help")
 	print("")
 	print("Syntax")
 	print("countOdds(Start Number, End Number, Show Lists of Numbers [True/(False)])")

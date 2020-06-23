@@ -1,18 +1,10 @@
 from plugins.core import *
 import re
 from math import *
-try:
-	import configparser
-	import themes
-	config = configparser.ConfigParser()
-	config.read("config.ini")
-	exec("style = themes." + config["appearance"]["theme"] + "." + config["appearance"]["theme"])
-except:
-	style=darkStyle
 
 #Quadratic Word Problems
 def quadWord():
-	a = input(style.input + "A Value: ")
+	a = input(theme["styles"]["input"] + "A Value: ")
 	b = input("B Value: ")
 	c = input("C Value: ")
 	a = int(a)
@@ -36,7 +28,7 @@ def quadWord():
 	equ = eval(equ)
 	vertex = "(" + str(aOs) + ", " + str(equ) + ")"
 	print("")
-	print(style.output + "Vertex: " + str(vertex))
+	print(theme["styles"]["output"] + "Vertex: " + str(vertex))
 	print("AOS: " + str(aOs))
 	print("Y-Int: " + str(yInt))
 	if upsideDown == True:
@@ -44,10 +36,10 @@ def quadWord():
 	print("")
 	
 	#Show Work
-	print(style.important + "Work:")
+	print(theme["styles"]["important"] + "Work:")
 	equStr = str(a) + "*" + str(aOs) + "^2+" + str(b) + "*" + str(aOs) + "+" + str(c)
 	equStr = re.sub("\+-|\-+", "-", equStr)
-	print(style.output + equStr)
+	print(theme["styles"]["output"] + equStr)
 	equBefore = str(first) + "+" + str(second) + "+" + str(c)
 	equBefore = re.sub("\+-|\-+", "-", equBefore)
 	print(equBefore)
@@ -57,4 +49,4 @@ def quadWord():
 	print(aOs)	
 	
 def help():
-	print(style.output + "quadWord() - Find Parabolla from Quadratic Equation")
+	print(theme["styles"]["output"] + "quadWord() - Find Parabolla from Quadratic Equation")
