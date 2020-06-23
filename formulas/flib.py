@@ -3,30 +3,22 @@ from plugins.core import *
 import os
 from update_check import *
 import time
-from tqdm import tqdm
-try:
-	import configparser
-	import themes
-	config = configparser.ConfigParser()
-	config.read("config.ini")
-	exec("style = themes." + config["appearance"]["theme"] + "." + config["appearance"]["theme"])
-except:
-	style=darkStyle		
+from tqdm import tqdm		
 
 #Updater
 print("Checking for updates...")
 for i in tqdm(range(1)):
 	x = isUpToDate(__file__, "https://raw.githubusercontent.com/TabulateJarl8/calcplugins/master/formulas/flib.py")
 if x == False:
-	x = input(style.important + "Update? [Y/n] " + style.normal)
+	x = input(theme["styles"]["important"] + "Update? [Y/n] " + theme["styles"]["normal"])
 	if x.lower() != 'n':
-		print(style.output + "Updating flib...")
+		print(theme["styles"]["output"] + "Updating flib...")
 		os.chdir("plugins")
 			
 		update(__file__, "https://raw.githubusercontent.com/TabulateJarl8/calcplugins/master/formulas/flib.py")
 		os.chdir("..")
 		print("")
-		print(style.important + "flib Updated. Please Restart the Calculator." + style.normal)
+		print(theme["styles"]["important"] + "flib Updated. Please Restart the Calculator." + theme["styles"]["normal"])
 		time.sleep(2)
 			
 def quadForm(a, b, c):
@@ -43,7 +35,7 @@ def quadForm(a, b, c):
         while i < 5 - len(topStr):
             topStr = " " + topStr
             i+=1
-        print(style.answer + topStr.center(8))
+        print(theme["styles"]["answer"] + topStr.center(8))
         
         print("\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014")
         i = 0
@@ -57,7 +49,7 @@ def quadForm(a, b, c):
         plus = plus / (2*a)
         minus = int(negB) - int(top)
         minus = minus / (2*a)
-        print(style.answer + "x = " + str(plus))
+        print(theme["styles"]["answer"] + "x = " + str(plus))
         print("x = " + str(minus))
     
 def perfect_square(limit):  
