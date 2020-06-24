@@ -25,7 +25,10 @@ except:
 #Updater
 print("Checking for Updates...")
 for i in tqdm(range(1)):
-	x = isUpToDate(__file__, "https://raw.githubusercontent.com/TabulateJarl8/calcplugins/master/formulas/formulas.py")
+	try:
+		x = isUpToDate(__file__, "https://raw.githubusercontent.com/TabulateJarl8/calcplugins/master/formulas/formulas.py")
+	except:
+		x = True
 if x == False:
 	x = input(theme["styles"]["important"] + "Update? [Y/n] " + theme["styles"]["normal"])
 	if x.lower() != 'n':
@@ -169,11 +172,7 @@ def perimeterCircle(r=0, d=0):
 	print(theme["styles"]["answer"] + str(per))
 	
 def mean(nums):
-	mean = 0
-	for i in range (len(nums)):
-		mean = mean + nums[i]
-	mean = mean // len(nums)
-	print(theme["styles"]["answer"] + str(mean))
+	print(theme["styles"]["answer"] + str(sum(nums) / len(nums)))
 	
 def median(nums):
 	nums.sort()

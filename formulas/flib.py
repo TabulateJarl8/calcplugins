@@ -8,7 +8,10 @@ from tqdm import tqdm
 #Updater
 print("Checking for updates...")
 for i in tqdm(range(1)):
-	x = isUpToDate(__file__, "https://raw.githubusercontent.com/TabulateJarl8/calcplugins/master/formulas/flib.py")
+	try:
+		x = isUpToDate(__file__, "https://raw.githubusercontent.com/TabulateJarl8/calcplugins/master/formulas/flib.py")
+	except:
+		x = True
 if x == False:
 	x = input(theme["styles"]["important"] + "Update? [Y/n] " + theme["styles"]["normal"])
 	if x.lower() != 'n':
