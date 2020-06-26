@@ -1,28 +1,5 @@
 from math import *
 from plugins.core import *
-import os
-from update_check import *
-import time
-from tqdm import tqdm		
-
-#Updater
-print("Checking for updates...")
-for i in tqdm(range(1)):
-	try:
-		x = isUpToDate(__file__, "https://raw.githubusercontent.com/TabulateJarl8/calcplugins/master/formulas/flib.py")
-	except:
-		x = True
-if x == False:
-	x = input(theme["styles"]["important"] + "Update? [Y/n] " + theme["styles"]["normal"])
-	if x.lower() != 'n':
-		print(theme["styles"]["output"] + "Updating flib...")
-		os.chdir("plugins")
-			
-		update(__file__, "https://raw.githubusercontent.com/TabulateJarl8/calcplugins/master/formulas/flib.py")
-		os.chdir("..")
-		print("")
-		print(theme["styles"]["important"] + "flib Updated. Please Restart the Calculator." + theme["styles"]["normal"])
-		time.sleep(2)
 			
 def quadForm(a, b, c):
     negB = b * -1

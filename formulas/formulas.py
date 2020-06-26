@@ -1,58 +1,6 @@
 from plugins.core import *
 import math
 import statistics
-import time
-import os
-import urllib.request
-from tqdm import tqdm
-from update_check import *
-
-try:
-	import plugins.flib
-except:
-	try:
-		os.chdir("plugins")
-		url = 'https://raw.githubusercontent.com/TabulateJarl8/calcplugins/master/formulas/flib.py'
-		for i in tqdm(range(1), desc="Downloading flib..."):
-			path = __file__
-			path = path.replace("formulas.py", "flib.py")
-			urllib.request.urlretrieve(url, path)
-		os.chdir("..")
-		import plugins.flib
-	except:
-		print(theme["styles"]["error"] + "Couldnt connect to update service. Please connect to the internet and try again to update" + theme["styles"]["normal"])
-	
-#Updater
-print("Checking for Updates...")
-for i in tqdm(range(1)):
-	try:
-		x = isUpToDate(__file__, "https://raw.githubusercontent.com/TabulateJarl8/calcplugins/master/formulas/formulas.py")
-	except:
-		x = True
-if x == False:
-	x = input(theme["styles"]["important"] + "Update? [Y/n] " + theme["styles"]["normal"])
-	if x.lower() != 'n':
-		print(theme["styles"]["output"] + "Updating formulas...")
-		os.chdir("plugins")
-		update(__file__, "https://raw.githubusercontent.com/TabulateJarl8/calcplugins/master/formulas/formulas.py")
-		os.chdir("..")
-		print("")
-		print(theme["styles"]["important"] + "Formulas Updated. Please Restart the Calculator." + theme["styles"]["normal"])
-		time.sleep(2)
-	
-def install():
-	dir = os.listdir('plugins/')
-	if 'flib.py' in dir:
-		print(theme["styles"]["error"] + "flib is already installed.")
-	else:
-		os.chdir("plugins")
-		url = 'https://raw.githubusercontent.com/TabulateJarl8/calcplugins/master/formulas/flib.py'
-		for i in tqdm(range(1), desc="Downloading flib..."):
-			path = __file__
-			path = path.replace("formulas.py", "flib.py")
-			urllib.request.urlretrieve(url, path)
-		os.chdir("..")
-		import plugins.flib
 
 def areaSquare(l):
 	area = l**2
@@ -251,16 +199,9 @@ def density(m, v):
 	print(str(m//v))
 	
 def quadForm(a, b, c):
-	if 'flib.py' in os.listdir("plugins/"):
-		plugins.flib.quadForm(a, b, c)
-	else:
-		print(theme["styles"]["error"] + "This feature is disabled. Please type formulas.install() to enable this feature.")
-	
+	plugins.flib.quadForm(a, b, c)
 
 def help():
-	if not 'flib.py' in os.listdir("plugins"):
-		print(theme["styles"]["important"] + "Please type formulas.install() to install needed libraries")
-		print("")
 	print(theme["styles"]["output"] + "Type formulas.calcs() to get a list of supported calculations and syntaxes or formulas.abbrList() to get a list of abbreviations. You can also input values out of order by directly specifying their values. Eg: quadForm(b=3, a=9, c=10)")
 
 def abbrList():
