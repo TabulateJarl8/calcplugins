@@ -1,0 +1,12 @@
+[quads]
+description = The quads plugin will find information on a parabolla from the quadratic equation.
+summary = Shows information about a quadratic equation
+maintainer = tabulatejarl8@gmail.com
+version = 1.0
+download = https://raw.githubusercontent.com/TabulateJarl8/calcplugins/master/quads.py
+hash = 8c80dda7178021b20643866e65f13a298bbec1a5627aca2824027863f09f871d
+lastupdate = 1593109783.9250867
+filename=quads.py
+rating = 5
+ratings = 0
+type=plugins

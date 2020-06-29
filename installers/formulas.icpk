@@ -1,0 +1,13 @@
+[formulas]
+description = The formulas plugin is a plugin that adds the functionality to solve lots of formulas. Some include but are not limited to, volume of shapes, quadratic formula, and energy equations.
+maintainer = tabulatejarl8@gmail.com
+version = 1.1
+download = https://raw.githubusercontent.com/TabulateJarl8/calcplugins/master/formulas/formulas.py
+hash = fb49d148b73e406e34378ab9a7ab4a9285ab9dd02993646d971a62aca0925c11
+lastupdate = 1593149743.3375468
+summary = Adds many new formulas
+filename = formulas.py
+depends=flib
+rating = 5
+ratings = 0
+type=plugins
