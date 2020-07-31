@@ -7,6 +7,6 @@ hash = 988a5f956005b07970fe421100b917d73a6c2f0afea2cf7cdbfecf536b32b22c
 lastupdate = 1596228186.898133
 summary = GUI based theme editor
 filename = themegui.py
-depends =
 rating = 5
 ratings = 0
+type = plugins
