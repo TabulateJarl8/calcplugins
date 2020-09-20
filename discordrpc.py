@@ -1,25 +1,6 @@
 from pypresence import Presence
 import configparser
-from dialog import Dialog
-
-class settings:
-	choices = [("Discord Rich Presence", "Display ImaginaryInfinity Calculator as your status in Discord"), ("Dynamic RPC", "Update Discord RPC on calculation")]
-	
-	def settingsPopup(tag, config):
-		d = Dialog()
-		if tag == "Discord Rich Presence":
-			x = d.menu("Discord Rich Presence", choices=[("Enable", "Enable Discord RPC"), ("Disable", "Disable Discord RPC")])
-			if x[1] == "Enable":
-				config["discord"]["enableRPC"] = "true"
-			else:
-				config["discord"]["enableRPC"] = "false"
-		elif tag == "Dynamic RPC":
-			x = d.menu("Update Discord RPC with your last done calculation", choices=[("Enable", "Enable Dynamic RPC"), ("Disable", "Disable Dynamic RPC")])
-			if x[1] == "Enable":
-				config["discord"]["dynamicPresence"] = "true"
-			else:
-				config["discord"]["dynamicPresence"] = "false"
-		return config
+import time
 
 def main():
 	global config
@@ -48,11 +29,13 @@ def main():
 		configFile.close()
 
 	if config["discord"]["enableRPC"] == "true":
+		global start
+		start = str(time.time()).split(".")[0]
 		try:
 			global rpc
 			rpc = Presence("720335749601296464")
 			rpc.connect()
-			rpc.update(state="Calculating with ImaginaryInfinity Calculator", details="https://turbowafflz.gitlab.io/iicalc.html", large_image="iicalclogo", large_text="ImaginaryInfinity Calculator")
+			rpc.update(state="Calculating with ImaginaryInfinity Calculator", details="https://turbowafflz.gitlab.io/iicalc.html", large_image="iicalclogo", large_text="ImaginaryInfinity Calculator", start=start)
 		except:
 			yesno = input("Your system doesn't seem to support Discord rich presence. Would you like to disable it? (Y/n)")
 			if yesno.lower() == "y" or yesno.lower() == "":
@@ -64,7 +47,7 @@ def main():
 def onInput(arg):
 	try:
 		if config["discord"]["dynamicPresence"] == "true":
-			rpc.update(state="Calculating with ImaginaryInfinity Calculator", details="Just executed " + arg, large_image="iicalclogo", large_text="https://turbowafflz.gitlab.io/iicalc.html", small_text="Just executed " + arg)
+			rpc.update(state="Calculating with ImaginaryInfinity Calculator", details="Just executed " + arg, large_image="iicalclogo", large_text="https://turbowafflz.gitlab.io/iicalc.html", small_text="Just executed " + arg, start=start)
 	except:
 		pass
 
