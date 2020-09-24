@@ -2,6 +2,10 @@ import tkinter as tk
 from tkinter.colorchooser import *
 from tkinter import messagebox
 import configparser
+from system.systemPlugins.core import themePath, configPath
+
+config = configparser.ConfigParser()
+config.read(configPath)
 
 root = tk.Tk()
 root.withdraw()
@@ -123,7 +127,7 @@ def makeTheme():
 
 def next():
 	openTheme = configparser.ConfigParser()
-	openTheme.read("templates/.emptytheme.iitheme")
+	openTheme.read(config["paths"]["systemPath"] + "/templates/.emptytheme.iitheme")
 	file = filevar.get()
 	name = namevar.get()
 	desc = descvar.get()
@@ -211,6 +215,6 @@ def next():
 		openTheme["styles"]["output"] = Fore + Back
 	root.quit()
 	print("Saving theme...")
-	with open("themes/" + file, "w") as themeFile:
+	with open(themePath + "/" + file, "w") as themeFile:
 		openTheme.write(themeFile)
 	print("Theme saved!")

@@ -1,11 +1,12 @@
 from pypresence import Presence
 import configparser
 import time
+from system.systemPlugins.core import configPath
 
 def main():
 	global config
 	config = configparser.ConfigParser()
-	config.read("config.ini")
+	config.read(configPath)
 	if not config.has_section("discord"):
 		config.add_section("discord")
 		config["discord"]["enableRPC"] = "ask"
@@ -24,7 +25,7 @@ def main():
 			config["discord"]["enableRPC"] = "ask"
 		else:
 			config["discord"]["enableRPC"] = "true"
-	with open("config.ini", "w") as configFile:
+	with open(configPath, "w") as configFile:
 		config.write(configFile)
 		configFile.close()
 
@@ -40,7 +41,7 @@ def main():
 			yesno = input("Your system doesn't seem to support Discord rich presence. Would you like to disable it? (Y/n)")
 			if yesno.lower() == "y" or yesno.lower() == "":
 				config["discord"]["enableRPC"] = "false"
-				with open("config.ini", "w") as configFile:
+				with open(configPath, "w") as configFile:
 					config.write(configFile)
 					configFile.close()
 
