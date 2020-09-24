@@ -1,4 +1,4 @@
-from plugins.core import *
+from system.systemPlugins.core import *
 
 def countOdds(startnum, endnum, showNums=False):
 	even = []

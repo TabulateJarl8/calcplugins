@@ -1,5 +1,5 @@
 import re
-from plugins.core import *
+from system.systemPlugins.core import *
 
 def absGraph(x, y, slope, upsidedown=False):
 	equ = "y="

@@ -1,5 +1,5 @@
-from plugins.core import *
-import math
+from system.systemPlugins.core import *
+from math import *
 import statistics
 
 def areaSquare(l):
@@ -33,13 +33,13 @@ def areaRegularPolygon(P, a):
 
 def areaCircle(r):
 	area = r ** 2
-	area = area * math.pi
+	area = area * pi
 	print(theme["styles"]["answer"] + str(area))
-	
+
 def areaRegularPentagon(s):
 	s = s ** 2
 	print(theme["styles"]["answer"] + str(1.720 * s))
-	
+
 def areaRegularHexagon(s):
 	s = s ** 2
 	print(theme["styles"]["answer"] + str(2.598 * s))
@@ -49,21 +49,21 @@ def areaRegularOctogon(s):
 	print(theme["styles"]["answer"] + str(4.828 * s))
 
 def surfaceAreaCone(r, s):
-	area = math.pi * r
+	area = pi * r
 	area = area * s
 	print(theme["styles"]["answer"] + str(area))
 
 def surfaceAreaSphere(r):
 	area = r ** 2
 	area = area * 4
-	area = area * math.pi
+	area = area * pi
 	print(theme["styles"]["answer"] + str(area))
-	
+
 def surfaceAreaCube(s):
 	area = s ** 2
 	area *= 6
 	print(theme["styles"]["answer"] + str(area))
-	
+
 def surfaceAreaRectangularPrism(a, b, c):
 	first = 2 * a * b
 	second = 2 * b * c
@@ -85,7 +85,7 @@ def volumeRectangularPrism(b, h):
 
 def volumeCylinder(r, h):
 	vol = r ** 2
-	vol = vol * math.pi
+	vol = vol * pi
 	vol = vol * h
 	print(theme["styles"]["answer"] + str(vol))
 
@@ -97,7 +97,7 @@ def volumeCone(b, h):
 
 def volumeSphere(r):
 	vol = r ** 3
-	vol = vol * math.pi
+	vol = vol * pi
 	fraction = 4 / 3
 	vol = vol*fraction
 	print(theme["styles"]["answer"] + str(vol))
@@ -114,14 +114,14 @@ def perimeterRectangle(l, w):
 
 def perimeterCircle(r=0, d=0):
 	if r == 0:
-		per = math.pi * d
+		per = pi * d
 	else:
-		per = 2 * math.pi * r
+		per = 2 * pi * r
 	print(theme["styles"]["answer"] + str(per))
-	
+
 def mean(nums):
 	print(theme["styles"]["answer"] + str(sum(nums) / len(nums)))
-	
+
 def median(nums):
 	nums.sort()
 	if len(nums) % 2 == 0:
@@ -139,7 +139,7 @@ def median(nums):
 
 def mode(nums):
 	print(theme["styles"]["answer"] + str(statistics.mode(nums)))
-	
+
 def range(nums):
 	nums.sort()
 	print(theme["styles"]["answer"] + str(nums[-1] - nums[0]))
@@ -150,16 +150,16 @@ def midpoint(x1, y1, x2, y2):
 	y = y1 + y2
 	y = y // 2
 	print(theme["styles"]["answer"] + "(" + str(x) + ", " + str(y) + ")")
-	
+
 def distance(x1, y1, x2, y2):
 	x = x2 - x1
 	x = x ** 2
 	y = y2 - y1
 	y = y ** 2
 	distance = x + y
-	distance = math.sqrt(distance)
+	distance = sqrt(distance)
 	print(distance)
-	
+
 def slope(x1, y1, x2, y2):
 	y = y2 - y1
 	x = x2 - x1
@@ -182,24 +182,82 @@ def distance(s, t):
 
 def speed(d, t):
 	print(str(d//t) + " u/t")
-	
+
 def time(d, s):
 	print(str(d//s) + " u")
-	
+
 def work(f, d):
 	print(str(f * d) + " n-distanceUnit")
-	
+
 def force(m, a):
 	print(str(m * a) + " newtons")
-	
+
 def mass(d, v):
 	print(str(d * v) + " grams")
-	
+
 def density(m, v):
 	print(str(m//v))
-	
+
 def quadForm(a, b, c):
-	plugins.flib.quadForm(a, b, c)
+    negB = b * -1
+    bSqu = b ** 2
+    second = 4 * a * c
+    top = bSqu - second
+    doubleA = a * 2
+    top = reduced_sqrt(top)
+    #print("")
+    if (str(top).isalnum()) == False:
+        topStr = str(negB) + "\u00B1" + str(top)
+        i = 0
+        while i < 5 - len(topStr):
+            topStr = " " + topStr
+            i+=1
+        print(theme["styles"]["answer"] + topStr.center(8))
+
+        print("\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014")
+        i = 0
+        doubleA = str(doubleA)
+        while i < 5 - len(doubleA):
+            doubleA = " " + doubleA
+            i+=1
+        print(doubleA.center(8))
+    else:
+        plus = int(negB) + int(top)
+        plus = plus / (2*a)
+        minus = int(negB) - int(top)
+        minus = minus / (2*a)
+        print(theme["styles"]["answer"] + "x = " + str(plus))
+        print("x = " + str(minus))
+
+def perfect_square(limit):
+    accumulation_list = [1]
+    index, increment = 0, 3
+    while accumulation_list[-1] + increment <= limit:
+        accumulation_list.append(accumulation_list[index] + increment)
+        index += 1
+        increment = 2 * index + 3
+    return accumulation_list
+
+
+def reduced_sqrt(n):
+    """Print most reduced form of square root of n"""
+    if n < 0:
+        print('Negative input')
+        return
+
+    if sqrt(n).is_integer():
+        #print(int(sqrt(n)))
+        return n
+
+    # Find perfect squares that are factors of n
+    factors = [square for square in perfect_square(n/2) if n % square == 0 and square > 1]
+    if len(factors) == 0:
+        #print("\u221A" + str(n))
+        return('\u221A' + str(n)) # Square root is irreducible
+    else:
+        a = int(sqrt(max(factors))) # Coefficient
+        b = int(n / max(factors)) # Argument of the square root
+        return(str(a) + '\u221A' + str(b)) # Reduced square root
 
 def help():
 	print(theme["styles"]["output"] + "Type formulas.calcs() to get a list of supported calculations and syntaxes or formulas.abbrList() to get a list of abbreviations. You can also input values out of order by directly specifying their values. Eg: quadForm(b=3, a=9, c=10)")

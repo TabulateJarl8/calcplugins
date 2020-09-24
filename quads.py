@@ -1,4 +1,4 @@
-from plugins.core import *
+from system.systemPlugins.core import *
 import re
 from math import *
 
@@ -34,7 +34,7 @@ def quadWord():
 	if upsideDown == True:
 		print("Parabola is Upside Down")
 	print("")
-	
+
 	#Show Work
 	print(theme["styles"]["important"] + "Work:")
 	equStr = str(a) + "*" + str(aOs) + "^2+" + str(b) + "*" + str(aOs) + "+" + str(c)
@@ -46,7 +46,7 @@ def quadWord():
 	print(equ)
 	print("")
 	print(str(negB) + "/2(" + str(a) + ")")
-	print(aOs)	
-	
+	print(aOs)
+
 def help():
 	print(theme["styles"]["output"] + "quadWord() - Find Parabolla from Quadratic Equation")
