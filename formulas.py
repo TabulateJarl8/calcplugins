@@ -1,4 +1,4 @@
-from system.systemPlugins.core import *
+from systemPlugins.core import *
 from math import *
 import statistics
 

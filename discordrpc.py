@@ -1,7 +1,7 @@
 from pypresence import Presence
 import configparser
 import time
-from system.systemPlugins.core import configPath
+from systemPlugins.core import configPath
 
 def main():
 	global config

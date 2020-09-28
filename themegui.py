@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter.colorchooser import *
 from tkinter import messagebox
 import configparser
-from system.systemPlugins.core import themePath, configPath
+from systemPlugins.core import themePath, configPath
 
 config = configparser.ConfigParser()
 config.read(configPath)
