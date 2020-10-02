@@ -240,7 +240,7 @@ def perfect_square(limit):
 
 
 def reduced_sqrt(n):
-    """Print most reduced form of square root of n"""
+    #Print most reduced form of square root of n
     if n < 0:
         print('Negative input')
         return
@@ -260,27 +260,6 @@ def reduced_sqrt(n):
         return(str(a) + '\u221A' + str(b)) # Reduced square root
 
 def help():
-	print(theme["styles"]["output"] + "Type formulas.calcs() to get a list of supported calculations and syntaxes or formulas.abbrList() to get a list of abbreviations. You can also input values out of order by directly specifying their values. Eg: quadForm(b=3, a=9, c=10)")
-
-def abbrList():
-	print(theme["styles"]["output"] + "l - Length")
-	print("w - Width")
-	print("h - Height")
-	print("b - Base/Small Side")
-	print("D - Large Diagonal")
-	print("d - Small Diagonal/Diameter/Distance/Density")
-	print("B - Large Side")
-	print("P - Perimeter")
-	print("a - apothem/Acceleration")
-	print("r - Radius/Rate")
-	print("s - Slant Height/Side")
-	print("t - Time")
-	print("u - units")
-	print("f - Force")
-	print("m - Mass")
-	print("v - Volume")
-
-def calcs():
 	print(theme["styles"]["important"] + "Area")
 	print(theme["styles"]["output"] + "areaSquare(<length>)")
 	print("areaRectangle(<length>, <width>)")
