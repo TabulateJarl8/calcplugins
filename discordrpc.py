@@ -3,6 +3,25 @@ import configparser
 import time
 from systemPlugins.core import configPath
 
+class settings:
+	choices = [("Discord Rich Presence", "Display ImaginaryInfinity Calculator as your status in Discord"), ("Dynamic RPC", "Update Discord RPC on calculation")]
+
+	def settingsPopup(tag, config):
+		d = Dialog()
+		if tag == "Discord Rich Presence":
+			x = d.menu("Discord Rich Presence", choices=[("Enable", "Enable Discord RPC"), ("Disable", "Disable Discord RPC")])
+			if x[1] == "Enable":
+				config["discord"]["enableRPC"] = "true"
+			else:
+				config["discord"]["enableRPC"] = "false"
+		elif tag == "Dynamic RPC":
+			x = d.menu("Update Discord RPC with your last done calculation", choices=[("Enable", "Enable Dynamic RPC"), ("Disable", "Disable Dynamic RPC")])
+			if x[1] == "Enable":
+				config["discord"]["dynamicPresence"] = "true"
+			else:
+				config["discord"]["dynamicPresence"] = "false"
+		return config
+
 def main():
 	global config
 	config = configparser.ConfigParser()
