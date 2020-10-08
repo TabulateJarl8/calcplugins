@@ -2,6 +2,7 @@ from pypresence import Presence
 import configparser
 import time
 from systemPlugins.core import configPath
+from dialog import Dialog
 
 class settings:
 	choices = [("Discord Rich Presence", "Display ImaginaryInfinity Calculator as your status in Discord"), ("Dynamic RPC", "Update Discord RPC on calculation")]
