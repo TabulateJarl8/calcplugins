@@ -15,5 +15,7 @@ The quads plugin will find information on a parabolla from the quadratic equatio
 ## odds
 The odds plugin is fairly simple. All it does it take an input of numbers and splits them into 2 lists, even numbers and odd numbers. It will tell you how many of each there are and you can also get it to show all of the split numbers.
 
-
-
+## themegui
+Make themes with a Tkinter GUI.
+<br>
+**Note**: themegui currently has an issue that stops `ctrl + c` from working in the calculator because of Tkinter. Remove or disable the plugin to regain this functionality.

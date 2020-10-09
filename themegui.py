@@ -218,3 +218,6 @@ def next():
 	with open(themePath + "/" + file, "w") as themeFile:
 		openTheme.write(themeFile)
 	print("Theme saved!")
+
+def help():
+	print("themmegui.makeTheme() - Make Theme")
