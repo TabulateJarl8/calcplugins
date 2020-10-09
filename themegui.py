@@ -220,4 +220,4 @@ def next():
 	print("Theme saved!")
 
 def help():
-	print("themmegui.makeTheme() - Make Theme")
+	print("themegui.makeTheme() - Make Theme")
