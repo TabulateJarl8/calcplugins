@@ -58,7 +58,7 @@ def main():
 			rpc.connect()
 			rpc.update(state="Calculating with ImaginaryInfinity Calculator", details="https://turbowafflz.gitlab.io/iicalc.html", large_image="iicalclogo", large_text="ImaginaryInfinity Calculator", start=start)
 		except:
-			yesno = input("Your system doesn't seem to support Discord rich presence. Would you like to disable it? (Y/n)")
+			yesno = input("Your system doesn't seem to support Discord rich presence or Discord is closed. Would you like to disable it? (Y/n)")
 			if yesno.lower() == "y" or yesno.lower() == "":
 				config["discord"]["enableRPC"] = "false"
 				with open(configPath, "w") as configFile:
