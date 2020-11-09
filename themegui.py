@@ -139,7 +139,6 @@ def next():
 		file += ".iitheme"
 	openTheme["theme"]["name"] = name
 	openTheme["theme"]["description"] = desc
-	openTheme["theme"]["builtin"] = "false"
 	openTheme["theme"]["eval"] = "false"
 	Fore = getColor("Normal foreground", "fore")
 	Back = getColor("Normal background", "back")
@@ -217,7 +216,7 @@ def next():
 	print("Saving theme...")
 	with open(themePath + "/" + file, "w") as themeFile:
 		openTheme.write(themeFile)
-	print("Theme saved!")
+	print("Theme saved at " + themePath + "/" + file)
 
 def help():
 	print("themegui.makeTheme() - Make Theme")
