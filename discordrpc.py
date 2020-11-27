@@ -32,7 +32,7 @@ def main():
 		config["discord"]["enableRPC"] = "ask"
 	if not config.has_option("discord", "dynamicPresence"):
 		config["discord"]["dynamicPresence"] = "true"
-		with open("config.ini", "w") as configFile:
+		with open(configPath, "w") as configFile:
 			config.write(configFile)
 			configFile.close()
 	if config["discord"]["enableRPC"] == "ask":
