@@ -12,6 +12,9 @@ Absgraph is a plugin that will give you the equation to an Absolute Value Graph 
 ## quads
 The quads plugin will find information on a parabolla from the quadratic equation.
 
+## ptable
+The ptable plugin just provides data from the periodic table. Right now, every element has a mass, a number, and a melting point value. More values may be added in the future.
+
 ## odds
 The odds plugin is fairly simple. All it does it take an input of numbers and splits them into 2 lists, even numbers and odd numbers. It will tell you how many of each there are and you can also get it to show all of the split numbers.
 
