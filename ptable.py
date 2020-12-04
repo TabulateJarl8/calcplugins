@@ -1,5 +1,8 @@
 import sys
-from systemPlugins.core import theme
+from systemPlugins.core import theme, configPath
+from configparser import ConfigParser
+from dialog import Dialog
+
 elements = {
 	"h": {"mass": 1.00784, "number": 1, "name": "hydrogen", "melting": -259.1},
 	"he": {"mass": 4.002602, "number": 2, "name": "helium", "melting": None},
@@ -122,19 +125,64 @@ elements = {
 
 }
 
-#Init variables with mass on start
-for element in elements:
-	vars(sys.modules[__name__])[element] = elements[element]["mass"]
-	vars(sys.modules[__name__])[elements[element]["name"]] = elements[element]["mass"]
+class settings:
+	choices = [("Datatype for ptable", "Change the datatype for ptable")]
+	def settingsPopup(tag, config):
+		d = Dialog()
+		if tag == "Datatype for ptable":
+			datatype = d.menu("Datatype for ptable", choices=[("Mass", "Atomic Mass"), ("Number", "Atomic Number"), ("Melting", "Element\'s melting point")])
+			if datatype[0] == d.OK:
+				config["ptable"]["variableType"] = datatype[1].lower()
+		return config
+
+def main():
+	config = ConfigParser()
+	config.read(configPath)
+	if not config.has_section("ptable"):
+		config.add_section("ptable")
+		config["ptable"]["variableType"] = "mass"
+		with open(configPath, "w") as configFile:
+			config.write(configFile)
+	if not config["ptable"]["variableType"] in elements["h"]:
+		input("ptable: Invalid datatype in config: \'" + config["ptable"]["variableType"] + "\'. Restoring to \'mass\'")
+		config["ptable"]["variableType"] = "mass"
+		with open(configPath, "w") as configFile:
+			config.write(configFile)
+	#Init variables with mass on start
+	for element in elements:
+		vars(sys.modules[__name__])[element] = elements[element][config["ptable"]["variableType"]]
+		vars(sys.modules[__name__])[elements[element]["name"]] = elements[element][config["ptable"]["variableType"]]
 
 def setElementVars(type):
+	config = ConfigParser()
+	config.read(configPath)
 	if str(type) in elements["h"]:
+		config["ptable"]["variableType"] = str(type)
+		with open(configPath, "w") as configFile:
+			config.write(configFile)
 		for element in elements:
 			vars(sys.modules[__name__])[element] = elements[element][str(type)]
 			vars(sys.modules[__name__])[elements[element]["name"]] = elements[element][str(type)]
 	else:
 		print(theme["styles"]["error"] + "Invalid datatype: \'" + str(type) + "\'")
 
+def currentDataType():
+	config = ConfigParser()
+	config.read(configPath)
+	print(config["ptable"]["variableType"])
+
+def onSettingsSaved():
+	config = ConfigParser()
+	config.read(configPath)
+	if config["ptable"]["variableType"] in elements["h"]:
+		for element in elements:
+			vars(sys.modules[__name__])[element] = elements[element][config["ptable"]["variableType"]]
+			vars(sys.modules[__name__])[elements[element]["name"]] = elements[element][config["ptable"]["variableType"]]
+
 def help():
 	print("ptable.setElementVars(<\"mass\"|\"number\"|\"melting\">) - Set a variable with the corresponding element symbol for every element containing the specified data")
 	print("Access these variables with ptable.[symbol] or ptable.[name]. For example, ptable.h would return hydrogen and ptable.zinc would return zinc")
+	print()
+	print("ptable.currentDataType() - Prints the current datatype, like mass or melting")
+
+main()
