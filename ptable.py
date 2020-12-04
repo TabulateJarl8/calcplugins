@@ -122,6 +122,11 @@ elements = {
 
 }
 
+#Init variables with mass on start
+for element in elements:
+	vars(sys.modules[__name__])[element] = elements[element]["mass"]
+	vars(sys.modules[__name__])[elements[element]["name"]] = elements[element]["mass"]
+
 def setElementVars(type):
 	if str(type) in elements["h"]:
 		for element in elements:
