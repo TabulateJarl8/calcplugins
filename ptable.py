@@ -131,5 +131,5 @@ def setElementVars(type):
 		print(theme["styles"]["error"] + "Invalid datatype: \'" + str(type) + "\'")
 
 def help():
-	print("setElementVars(<\"mass\"|\"number\"|\"melting\">) - Set a variable with the corresponding element symbol for every element containing the specified data")
+	print("ptable.setElementVars(<\"mass\"|\"number\"|\"melting\">) - Set a variable with the corresponding element symbol for every element containing the specified data")
 	print("Access these variables with ptable.[symbol] or ptable.[name]. For example, ptable.h would return hydrogen and ptable.zinc would return zinc")
