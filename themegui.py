@@ -139,7 +139,7 @@ def next():
 		file += ".iitheme"
 	openTheme["theme"]["name"] = name
 	openTheme["theme"]["description"] = desc
-	openTheme["theme"]["eval"] = "false"
+	openTheme["theme"]["ansi"] = "true"
 	Fore = getColor("Normal foreground", "fore")
 	Back = getColor("Normal background", "back")
 	if Back == "\\u001b[0m" and Fore == "\\u001b[0m":
