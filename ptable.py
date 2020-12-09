@@ -128,8 +128,8 @@ elements = {
 class settings:
 	choices = [("Datatype for ptable", "Change the datatype for ptable")]
 	def settingsPopup(tag, config):
-		d = Dialog()
 		if tag == "Datatype for ptable":
+			d = Dialog()
 			datatype = d.menu("Datatype for ptable", choices=[("Mass", "Atomic Mass"), ("Number", "Atomic Number"), ("Melting", "Element\'s melting point")])
 			if datatype[0] == d.OK:
 				config["ptable"]["variableType"] = datatype[1].lower()
