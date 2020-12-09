@@ -21,4 +21,4 @@ The odds plugin is fairly simple. All it does it take an input of numbers and sp
 ## themegui
 Make themes with a Tkinter GUI.
 <br>
-**Note**: themegui currently has an issue that stops `ctrl + c` from working in the calculator because of Tkinter. Remove or disable the plugin to regain this functionality.
+**Note**: themegui currently has an issue that stops `ctrl + c` from working in the calculator because of Tkinter's inability to be multithreaded. Remove or disable the plugin to regain this functionality.
