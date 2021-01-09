@@ -1,7 +1,9 @@
 import sys
 from systemPlugins.core import theme, configPath
 from configparser import ConfigParser
+import decimal
 from dialog import Dialog
+import re as regex
 
 elements = {
 	"h": {"mass": 1.00784, "number": 1, "name": "hydrogen", "melting": -259.1, "velectrons": 1},
@@ -153,6 +155,151 @@ def main():
 		vars(sys.modules[__name__])[element] = elements[element][config["ptable"]["variableType"]]
 		vars(sys.modules[__name__])[elements[element]["name"]] = elements[element][config["ptable"]["variableType"]]
 
+def getKey(val):
+	for key, value in elements.items():
+		if value["name"] == val:
+			return key
+	return None
+
+class Element():
+	def __init__(self, formula):
+		matches = regex.search("([0-9]*)([A-Za-z]+)([0-9]*)", formula)
+		if matches.group(1) == "":
+			self.coefficient = decimal.Decimal("1")
+		else:
+			self.coefficient = decimal.Decimal(matches.group(1))
+		if len(matches.group(2)) > 2:
+			self.symbol = getKey(matches.group(2))
+		else:
+			self.symbol = matches.group(2)
+		if matches.group(3) == "":
+			self.subscript = decimal.Decimal("1")
+		else:
+			self.subscript = decimal.Decimal(matches.group(3))
+		SUB = str.maketrans("0123456789", "₀₁₂₃₄₅₆₇₈₉")
+		if self.coefficient == 1:
+			tmpcoefficient = ""
+		else:
+			tmpcoefficient = self.coefficient
+		if self.subscript == 1:
+			tmpsubscript = ""
+		else:
+			tmpsubscript = self.subscript
+		self.formula = str(tmpcoefficient) + self.symbol.capitalize() + str(tmpsubscript).translate(SUB)
+		self.mass = decimal.Decimal(str(self.coefficient)) * decimal.Decimal(str(decimal.Decimal(str(elements[self.symbol.lower()]["mass"])) * decimal.Decimal(str(self.subscript))))
+	def update(self, multiplier):
+		SUB = str.maketrans("0123456789", "₀₁₂₃₄₅₆₇₈₉")
+		self.subscript = round(self.subscript * multiplier, 0)
+		if self.coefficient == 1:
+			self.coefficient = ""
+		if self.subscript == 1:
+			self.subscript = ""
+
+		self.updatedformula = str(self.coefficient) + self.symbol.capitalize() + str(self.subscript).translate(SUB)
+
+def empForm(*args, mass=False, showWork=False):
+	while args[-1] == True or args[-1] == False:
+		args = args[:-1]
+	for arg in args:
+		if type(arg) != tuple:
+			print(str(arg) + " is not a tuple")
+			return
+		if len(arg) != 2:
+			print(str(arg) + " is an invalid length (expected 2 but got " + str(len(arg)) + ")")
+			return
+		if isinstance(arg[0], str) and not isinstance(arg[1], (int, float, decimal.Decimal)):
+			print(str(arg) + " does not contain a string and a number")
+			return
+		if not isinstance(arg[1], str) and not isinstance(arg[1], (int, float, decimal.Decimal)):
+			print(str(arg) + " does not contain a string and a number")
+			return
+	args = dict(args)
+	args = dict([(Element(args[key]), key) if isinstance(args[key], str) else (Element(key), args[key]) for key in args])
+
+	elementnames = [elements[element]["name"] for element in elements]
+
+	for key in args:
+		if key.symbol not in elements and key.symbol not in elementnames:
+			print(str(key) + " is not a valid element name or symbol")
+			return
+
+	if mass != True:
+		total = 0
+		for element in args:
+			total += args[element]
+		if total != 100:
+			print("Total percentage is not equal to 100")
+			return
+
+	mol = {}
+	for element in args:
+		if len(element.symbol) > 2:
+			mol[element] = round(decimal.Decimal(str(args[element])) / decimal.Decimal(str(elements[getKey(element.symbol)]["mass"])), 3)
+		else:
+			mol[element] = round(decimal.Decimal(str(args[element])) / decimal.Decimal(str(elements[element.symbol]["mass"])), 3)
+
+	smallest = mol[min(mol.keys(), key=(lambda k: mol[k]))]
+
+	factors = {}
+	for element in mol:
+		factors[element] = round(decimal.Decimal(str(mol[element])) / decimal.Decimal(str(smallest)), 0)
+
+	for element in factors:
+		element.update(factors[element])
+
+	if showWork == True:
+		for arg in args:
+			if len(arg.symbol) > 2:
+				print(str(args[arg]) + "g " + arg.symbol.capitalize() + "/" + str(elements[getKey(arg.symbol)]["mass"]) + "g " + arg.symbol.capitalize() + " = " + str(mol[arg]) + " mol " + arg.symbol.capitalize())
+			else:
+				print(str(args[arg]) + "g " + arg.symbol.capitalize() + "/" + str(elements[arg.symbol]["mass"]) + "g " + arg.symbol.capitalize() + " = " + str(mol[arg]) + " mol " + arg.symbol.capitalize())
+		print()
+		for element in mol:
+			print(str(mol[element]) + "mol " + element.symbol.capitalize() + "/" + str(smallest) + " = " + str(factors[element]))
+
+		print()
+
+		for element in factors:
+			print(element.formula + " * " + str(factors[element]) + " = " + str(element.updatedformula))
+		print()
+	for element in factors:
+		sys.stdout.write(element.updatedformula)
+	print()
+
+def molecularFormula(empForm, molMass, showWork=False):
+	splitform = regex.findall('[A-Z][^A-Z]*', empForm)
+	for i in range(len(splitform)):
+		splitform[i] = Element(splitform[i])
+
+	EFM = 0
+	for item in splitform:
+		EFM += item.mass
+
+	EFM = round(EFM, 3)
+
+	multiplier = round(decimal.Decimal(str(molMass)) / decimal.Decimal(str(EFM)), 3)
+
+	for item in splitform:
+		item.update(multiplier)
+
+	if showWork == True:
+		for i, item in enumerate(splitform):
+			sys.stdout.write(str(item.mass) + "g " + item.symbol)
+			if i + 2 <= len(splitform):
+				sys.stdout.write(" + ")
+		sys.stdout.write(" = " + str(round(EFM, 3)))
+		print()
+		print(str(molMass) + "/" + str(EFM) + " = " + str(multiplier))
+		for item in splitform:
+			sys.stdout.write(item.formula)
+		sys.stdout.write(" * " + str(multiplier) + " = ")
+		for item in splitform:
+			sys.stdout.write(item.updatedformula)
+	else:
+		for item in splitform:
+			sys.stdout.write(item.updatedformula)
+
+
 def setElementVars(type):
 	config = ConfigParser()
 	config.read(configPath)
@@ -184,5 +331,9 @@ def help():
 	print("Access these variables with ptable.[symbol] or ptable.[name]. For example, ptable.h would return hydrogen and ptable.zinc would return zinc")
 	print()
 	print("ptable.currentDataType() - Prints the current datatype, like mass or melting")
+	print()
+	print("ptable.empForm((<\"percent\", \"symbol_or_name\">), (<\"symbol_or_name\", \"percent\">), mass=False, showWork=False) - Find emperical formula from atomic symbol/name of element and percent. Supplyed in tuples with the format of (\"percent\", \"symbol_or_name\") or (\"symbol_or_name\", \"percent\"). For example, a compund with 18% carbon, 2.26% hydrogen, and 79.74% clorine, you can use `ptable.empForm((18, \"c\"), (\"h\", 2.26), (79.74, \"cl\"))` If you\'re using mass instead of percentage, specify mass=True at the beginning of the function")
+	print()
+	print("ptable.molecularFormula(<\"empericalFormula\">, <molarMass>, showWork=False)")
 
 main()
