@@ -197,6 +197,16 @@ class Element():
 
 		self.updatedformula = str(self.coefficient) + self.symbol.capitalize() + str(self.subscript).translate(SUB)
 
+def molarMass(formula):
+	splitform = regex.findall('[A-Z][^A-Z]*', formula)
+	for i in range(len(splitform)):
+		splitform[i] = Element(splitform[i])
+
+	molarmass = 0
+	for item in splitform:
+		molarmass += item.mass
+	return decimal.Decimal(molarmass)
+
 def empForm(*args, mass=False, showWork=False):
 	while args[-1] == True or args[-1] == False:
 		args = args[:-1]
@@ -267,15 +277,8 @@ def empForm(*args, mass=False, showWork=False):
 	print()
 
 def molecularFormula(empForm, molMass, showWork=False):
-	splitform = regex.findall('[A-Z][^A-Z]*', empForm)
-	for i in range(len(splitform)):
-		splitform[i] = Element(splitform[i])
 
-	EFM = 0
-	for item in splitform:
-		EFM += item.mass
-
-	EFM = round(EFM, 3)
+	EFM = round(molarMass(empForm), 3)
 
 	multiplier = round(decimal.Decimal(str(molMass)) / decimal.Decimal(str(EFM)), 3)
 
@@ -298,6 +301,24 @@ def molecularFormula(empForm, molMass, showWork=False):
 	else:
 		for item in splitform:
 			sys.stdout.write(item.updatedformula)
+
+def molarity(mass, molarmass_or_formula, volumesolution, showWork=False):
+	try:
+		molarmass = int(molarmass_or_formula)
+	except ValueError:
+		molarmass = molarMass(molarmass_or_formula)
+
+	molarmass = round(molarmass, 3)
+
+	mols = round(decimal.Decimal(mass) / decimal.Decimal(molarmass), 3)
+
+	molarity = round(decimal.Decimal(mols)/decimal.Decimal(volumesolution), 3)
+
+	if showWork == True:
+		print(str(mass) + "g/" + str(molarmass) + "g = " + str(mols))
+		print(str(mols) + "mol/" + str(volumesolution) + "L = " + str(molarity) + " M")
+	else:
+		print(molarity)
 
 
 def setElementVars(type):
@@ -335,5 +356,7 @@ def help():
 	print("ptable.empForm((<\"percent\", \"symbol_or_name\">), (<\"symbol_or_name\", \"percent\">), mass=False, showWork=False) - Find emperical formula from atomic symbol/name of element and percent. Supplyed in tuples with the format of (\"percent\", \"symbol_or_name\") or (\"symbol_or_name\", \"percent\"). For example, a compund with 18% carbon, 2.26% hydrogen, and 79.74% clorine, you can use `ptable.empForm((18, \"c\"), (\"h\", 2.26), (79.74, \"cl\"))` If you\'re using mass instead of percentage, specify mass=True at the beginning of the function")
 	print()
 	print("ptable.molecularFormula(<\"empericalFormula\">, <molarMass>, showWork=False)")
+	print()
+	print("ptable.molarity(<mass>, <molarmass|\"formula\">, <volumesolution>, showWork=False)")
 
 main()
