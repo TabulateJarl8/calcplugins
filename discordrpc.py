@@ -5,6 +5,7 @@ from systemPlugins.core import configPath, pluginPath, themePath
 from dialog import Dialog
 from glob import glob
 import traceback
+import shutil
 
 class settings:
 	choices = [("Discord RPC Settings", "Settings for the discordrpc plugin")]
@@ -96,14 +97,15 @@ def main():
 					large_text += "s"
 			rpc.update(state="Calculating with ImaginaryInfinity Calculator", details="https://turbowafflz.gitlab.io/iicalc.html", large_image="iicalclogo", large_text=large_text, start=start)
 		except Exception as e:
-			if config["dev"]["debug"] == "true":
-				traceback.print_exc()
-			yesno = input("Your system doesn't seem to support Discord rich presence or Discord is closed. Would you like to disable it? (Y/n)")
-			if yesno.lower() == "y" or yesno.lower() == "":
-				config["discord"]["enableRPC"] = "false"
-				with open(configPath, "w") as configFile:
-					config.write(configFile)
-					configFile.close()
+			if shutil.which("discord") == None:
+				if config["dev"]["debug"] == "true":
+					traceback.print_exc()
+				yesno = input("Discord is not detected, so rich presence cannot be run, maybe try starting discord? Would you like to disable the plugin? (Y/n)")
+				if yesno.lower() == "y" or yesno.lower() == "":
+					config["discord"]["enableRPC"] = "false"
+					with open(configPath, "w") as configFile:
+						config.write(configFile)
+						configFile.close()
 
 def onInput(arg):
 	try:
