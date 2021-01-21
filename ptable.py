@@ -302,25 +302,6 @@ def molecularFormula(empForm, molMass, showWork=False):
 		for item in splitform:
 			sys.stdout.write(item.updatedformula)
 
-def molarity(mass, molarmass_or_formula, volumesolution, showWork=False):
-	try:
-		molarmass = int(molarmass_or_formula)
-	except ValueError:
-		molarmass = molarMass(molarmass_or_formula)
-
-	molarmass = round(molarmass, 3)
-
-	mols = round(decimal.Decimal(mass) / decimal.Decimal(molarmass), 3)
-
-	molarity = round(decimal.Decimal(mols)/decimal.Decimal(volumesolution), 3)
-
-	if showWork == True:
-		print(str(mass) + "g/" + str(molarmass) + "g = " + str(mols))
-		print(str(mols) + "mol/" + str(volumesolution) + "L = " + str(molarity) + " M")
-	else:
-		print(molarity)
-
-
 def setElementVars(type):
 	config = ConfigParser()
 	config.read(configPath)
@@ -357,6 +338,6 @@ def help():
 	print()
 	print("ptable.molecularFormula(<\"empericalFormula\">, <molarMass>, showWork=False)")
 	print()
-	print("ptable.molarity(<mass>, <molarmass|\"formula\">, <volumesolution>, showWork=False)")
+	print("ptable.molarMass(<\"formula\">) - Calculate molar mass of a formula. Note: Does not currently work with exponents outside of parenthesis")
 
 main()
