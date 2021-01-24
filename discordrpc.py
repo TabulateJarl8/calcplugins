@@ -12,7 +12,7 @@ class settings:
 	def settingsPopup(tag, config):
 		if tag == "Discord RPC Settings":
 			d = Dialog()
-			drpcmenu = d.menu("Discord RPC Settings", choices=[("Discord Rich Presence", "Display ImaginaryInfinity Calculator as your status in Discord"), ("Dynamic RPC", "Update Discord RPC on calculation"), ("Plugins and Themes in RPC", "Show number of Installed Plugins/Themes")], width=0, height=0)
+			drpcmenu = d.menu("Discord RPC Settings", choices=[("Discord Rich Presence", "Display ImaginaryInfinity Calculator as your status in Discord"), ("Dynamic RPC", "Update Discord RPC on calculation"), ("Plugins and Themes in RPC", "Show number of Installed Plugins/Themes"), ("Buttons", "Show buttons in RPC"), ("Debug", "Debug Mode")], width=0, height=0)
 			if drpcmenu[1] == "Discord Rich Presence":
 				x = d.menu("Discord Rich Presence", choices=[("Enable", "Enable Discord RPC"), ("Disable", "Disable Discord RPC")])
 				if x[1] == "Enable":
@@ -43,39 +43,60 @@ class settings:
 					config["discord"]["showAmountOfThemes"] = "true"
 				else:
 					config["discord"]["showAmountOfThemes"] = "false"
+			elif drpcmenu[1] == "Buttons":
+				x = d.menu("Show Buttons", choices=[("True", "Show buttons in RPC"), ("False", "Hide buttons in RPC")])
+				if x[1] ==  "True":
+					config["discord"]["showButtons"] = "true"
+				else:
+					config["discord"]["showButtons"] = "false"
+			elif drpcmenu[1] == "Debug":
+				x = d.menu("Debug Mode", choices=[("On", "Debug mode on"), ("Off", "Debug mode off")])
+				if x[1] ==  "On":
+					config["discord"]["debug"] = "true"
+				else:
+					config["discord"]["debug"] = "false"
 		return config
 
 def main():
 	global config
 	config = configparser.ConfigParser()
 	config.read(configPath)
+	changed = False
 	if not config.has_section("discord"):
 		config.add_section("discord")
 		config["discord"]["enableRPC"] = "ask"
+		changed = True
 	if not config.has_option("discord", "dynamicPresence"):
 		config["discord"]["dynamicPresence"] = "true"
-		with open(configPath, "w") as configFile:
-			config.write(configFile)
+		changed = True
 	if not config.has_option("discord", "showAmountOfPlugins"):
 		config["discord"]["showAmountOfPlugins"] = "true"
-		with open(configPath, "w") as configFile:
-			config.write(configFile)
+		changed = True
 	if not config.has_option("discord", "showAmountOfThemes"):
 		config["discord"]["showAmountOfThemes"] = "true"
-		with open(configPath, "w") as configFile:
-			config.write(configFile)
+		changed = True
+	if not config.has_option("discord", "showButtons"):
+		config["discord"]["showButtons"] = "true"
+		changed = True
+	if not config.has_option("discord", "debug"):
+		config["discord"]["debug"] = "false"
+		changed = True
 	if config["discord"]["enableRPC"] == "ask":
 		yn = input("Would you like to enable Discord rich presence? (Y/n)")
 		if yn.lower() == "y":
 			config["discord"]["enableRPC"] = "true"
+			changed = True
 		elif yn.lower() == "n":
 			config["discord"]["enableRPC"] = "false"
+			changed = True
 		elif yn.lower() == "askagain":
 			config["discord"]["enableRPC"] = "ask"
 		else:
 			config["discord"]["enableRPC"] = "true"
-	with open(configPath, "w") as configFile:
-		config.write(configFile)
+			changed = True
+	if changed == True:
+		with open(configPath, "w") as configFile:
+			config.write(configFile)
 
 	if config["discord"]["enableRPC"] == "true":
 		global start
@@ -95,11 +116,15 @@ def main():
 				large_text += str(len(glob(themePath + "/*.iitheme")) + len(glob(config["paths"]["systemPath"] + "/themes/*.iitheme"))) + " Theme"
 				if str(len(glob(pluginPath + "/*.py"))) != 1:
 					large_text += "s"
-			rpc.update(state="Calculating with ImaginaryInfinity Calculator", details="https://turbowafflz.gitlab.io/iicalc.html", large_image="iicalclogo", large_text=large_text, start=start)
+			if config["discord"]["showButtons"] == "true":
+				buttons = [{"label": "Github", "url": "https://github.com/TurboWafflz/ImaginaryInfinity-Calculator"}]
+			else:
+				buttons = None
+			rpc.update(state="Calculating with ImaginaryInfinity Calculator", details="https://turbowafflz.gitlab.io/iicalc.html", large_image="iicalclogo", large_text=large_text, start=start, buttons=buttons)
 		except Exception as e:
+			if config["discord"]["debug"] == "true":
+				traceback.print_exc()
 			if shutil.which("discord") == None:
-				if config["dev"]["debug"] == "true":
-					traceback.print_exc()
 				yesno = input("Discord is not detected, so rich presence cannot be run, maybe try starting discord? Would you like to disable the plugin? (Y/n)")
 				if yesno.lower() == "y" or yesno.lower() == "":
 					config["discord"]["enableRPC"] = "false"
@@ -121,8 +146,13 @@ def onInput(arg):
 				large_text += str(len(glob(themePath + "/*.iitheme")) + len(glob(config["paths"]["systemPath"] + "/themes/*.iitheme"))) + " Theme"
 				if str(len(glob(pluginPath + "/*.py"))) != 1:
 					large_text += "s"
-			rpc.update(state="Calculating with ImaginaryInfinity Calculator", details="Just executed " + arg, large_image="iicalclogo", large_text=large_text, small_text="Just executed " + arg, start=start)
-	except:
-		pass
+			if config["discord"]["showButtons"] == "true":
+				buttons = [{"label": "Github", "url": "https://github.com/TurboWafflz/ImaginaryInfinity-Calculator"}]
+			else:
+				buttons = None
+			rpc.update(state="Calculating with ImaginaryInfinity Calculator", details="Just executed " + arg, large_image="iicalclogo", large_text=large_text, small_text="Just executed " + arg, start=start, buttons=buttons)
+	except Exception as e:
+		if config["discord"]["debug"] == "true":
+			traceback.print_exc()
 
 main()
