@@ -6,6 +6,9 @@ A collection of my plugins for [ImaginaryInfinity-Calculator](https://github.com
 ## formulas
 The formulas plugin is a plugin that adds the functionality to solve lots of formulas. Some include but are not limited to, volume of shapes, quadratic formula, and energy equations.
 
+## discordrpc
+Shows ImaginaryInfinity Calculator as your status in Discord
+
 ## absgraph
 Absgraph is a plugin that will give you the equation to an Absolute Value Graph from the x value, y value, and slope.
 
