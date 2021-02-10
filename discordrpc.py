@@ -12,7 +12,7 @@ class settings:
 	def settingsPopup(tag, config):
 		if tag == "Discord RPC Settings":
 			d = Dialog()
-			drpcmenu = d.menu("Discord RPC Settings", choices=[("Discord Rich Presence", "Display ImaginaryInfinity Calculator as your status in Discord"), ("Dynamic RPC", "Update Discord RPC on calculation"), ("Plugins and Themes in RPC", "Show number of Installed Plugins/Themes"), ("Buttons", "Show buttons in RPC"), ("Debug", "Debug Mode")], width=0, height=0)
+			drpcmenu = d.menu("Discord RPC Settings", choices=[("Discord Rich Presence", "Display ImaginaryInfinity Calculator as your status in Discord"), ("Dynamic RPC", "Update Discord RPC on calculation"), ("Plugins and Themes in RPC", "Show number of Installed Plugins/Themes"), ("Buttons", "Show buttons in RPC"), ("iiCalc Version", "Show iiCalc version"), ("Debug", "Debug Mode")], width=0, height=0)
 			if drpcmenu[1] == "Discord Rich Presence":
 				x = d.menu("Discord Rich Presence", choices=[("Enable", "Enable Discord RPC"), ("Disable", "Disable Discord RPC")])
 				if x[1] == "Enable":
@@ -44,17 +44,23 @@ class settings:
 				else:
 					config["discord"]["showAmountOfThemes"] = "false"
 			elif drpcmenu[1] == "Buttons":
-				x = d.menu("Show Buttons", choices=[("True", "Show buttons in RPC"), ("False", "Hide buttons in RPC")])
-				if x[1] ==  "True":
+				x = d.menu("Show Buttons", choices=[("Enable", "Show buttons in RPC"), ("Disable", "Hide buttons in RPC")])
+				if x[1] ==  "Enable":
 					config["discord"]["showButtons"] = "true"
 				else:
 					config["discord"]["showButtons"] = "false"
 			elif drpcmenu[1] == "Debug":
-				x = d.menu("Debug Mode", choices=[("On", "Debug mode on"), ("Off", "Debug mode off")])
-				if x[1] ==  "On":
+				x = d.menu("Debug Mode", choices=[("Enable", "Debug mode on"), ("Disable", "Debug mode off")])
+				if x[1] ==  "Enable":
 					config["discord"]["debug"] = "true"
 				else:
 					config["discord"]["debug"] = "false"
+			elif drpcmenu[1] == "iiCalc Version":
+				x = d.menu("iiCalc Version", choices=[("Enable", "Show iiCalc version in status"), ("Disable", "Don\'t show iiCalc version in status")])
+				if x[1] == "Enable":
+					config["discord"]["showversion"] = "true"
+				else:
+					config["discord"]["showversion"] = "false"
 		return config
 
 def main():
@@ -80,6 +86,9 @@ def main():
 		changed = True
 	if not config.has_option("discord", "debug"):
 		config["discord"]["debug"] = "false"
+		changed = True
+	if not config.has_option("discord", "showversion"):
+		config["discord"]["showversion"] = "true"
 		changed = True
 	if config["discord"]["enableRPC"] == "ask":
 		yn = input("Would you like to enable Discord rich presence? (Y/n)")
