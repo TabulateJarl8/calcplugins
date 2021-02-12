@@ -67,6 +67,6 @@ def help():
 	print()
 	print(theme['styles']['important'] + "eqn" + theme['styles']['normal'] + " - The equation that you want to solve. Example: " + theme['styles']['input'] + "2x-3=7" + theme['styles']['normal'] + ".")
 	print(theme['styles']['important'] + "*" + theme['styles']['normal'] + " - Any number of strings of the variables you would like to solve for. For example, if you wanted to solve for x and y, you would give the function " + theme['styles']['input'] + "\"x\", \"y\"" + theme['styles']['normal'] + ".")
-	print(theme['styles']['important'] + "debug" + theme['styles']['normal'] + " - Print debug information Defaults to False." + theme['styles']['normal'])
+	print(theme['styles']['important'] + "debug" + theme['styles']['normal'] + " - Print debug information. Defaults to False." + theme['styles']['normal'])
 	print()
 	print(theme['styles']['important'] + "Note: " + theme['styles']['normal'] + "this function does not currently support multiple variables next to each other, for example, " + theme['styles']['input'] + "xy" + theme['styles']['normal'] + ", because we cannot detect the difference between that and something like " + theme['styles']['input'] + "sqrt" + theme['styles']['normal'] + ". To use these types of variables, please signify the multiplication, for example, writing " + theme['styles']['input'] + "x*y" + theme['styles']['normal'] + " instead of " + theme['styles']['input'] + "xy" + theme['styles']['normal'] + ".")
