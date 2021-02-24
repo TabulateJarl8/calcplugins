@@ -1,19 +1,17 @@
 from sympy.solvers import solve as solveeq
-from sympy import Symbol
-from sympy import Eq, sympify
+from sympy import Symbol, Eq, sympify
+from sympy import simplify as ssimplify
 import re
 from systemPlugins.core import theme
 
 def toValidEqn(eqn):
 	# Replace `[number][coefficient]` with `[number]*[coefficient]` and )( with )*(. E.g. (3x)(2) -> (3*x)*(2)
+	eqn = eqn.replace(" ", "").replace("^", "**")
 	eqn = re.sub(r"((?:\d+)|(?:[a-zA-Z]\w*\(\w+\)))((?:[a-zA-Z]\w*)|\()", r"\1*\2", eqn)
 	eqn = re.sub(r'(\))((?:[a-zA-Z]\w*)|\()', r'\1*\2', eqn)
 	return eqn
 
 def solve(eqn, *args, **kwargs):
-
-	# Remove spaces
-	eqn = eqn.replace(" ", "").replace("^", "**")
 
 	# Equation is equal to 0
 	if eqn.count("=") == 0:
@@ -62,6 +60,9 @@ def solve(eqn, *args, **kwargs):
 
 	return '\n'.join(requested_answers)
 
+def simplify(eqn):
+	return ssimplify(toValidEqn(eqn))
+
 def help():
 	print(theme['styles']['prompt'] + "algebra.solve(eqn, *, debug=False) - Solves algebraic equation." + theme['styles']['normal'])
 	print()
@@ -70,3 +71,6 @@ def help():
 	print(theme['styles']['important'] + "debug" + theme['styles']['normal'] + " - Print debug information. Defaults to False." + theme['styles']['normal'])
 	print()
 	print(theme['styles']['important'] + "Note: " + theme['styles']['normal'] + "this function does not currently support multiple variables next to each other, for example, " + theme['styles']['input'] + "xy" + theme['styles']['normal'] + ", because we cannot detect the difference between that and something like " + theme['styles']['input'] + "sqrt" + theme['styles']['normal'] + ". To use these types of variables, please signify the multiplication, for example, writing " + theme['styles']['input'] + "x*y" + theme['styles']['normal'] + " instead of " + theme['styles']['input'] + "xy" + theme['styles']['normal'] + ".")
+	print()
+	print()
+	print(theme['styles']['prompt'] + "algebra.simplify(eqn) - Simplifies the given equation." + theme['styles']['normal'])
