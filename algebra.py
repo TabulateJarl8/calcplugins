@@ -1,6 +1,8 @@
 from sympy.solvers import solve as solveeq
 from sympy import Symbol, Eq, sympify
 from sympy import simplify as ssimplify
+from sympy import expand as sexpand
+from sympy import factor as sfactor
 import re
 from systemPlugins.core import theme
 
@@ -63,6 +65,12 @@ def solve(eqn, *args, **kwargs):
 def simplify(eqn):
 	return ssimplify(toValidEqn(eqn))
 
+def expand(eqn):
+	return sexpand(toValidEqn(eqn))
+
+def factor(eqn):
+	return sfactor(toValidEqn(eqn))
+
 def help():
 	print(theme['styles']['prompt'] + "algebra.solve(eqn, *, debug=False) - Solves algebraic equation." + theme['styles']['normal'])
 	print()
@@ -74,3 +82,11 @@ def help():
 	print()
 	print()
 	print(theme['styles']['prompt'] + "algebra.simplify(eqn) - Simplifies the given equation." + theme['styles']['normal'])
+	print()
+	print()
+	print(theme['styles']['prompt'] + "algebra.expand(eqn) - Expands a polynomial expression. " + theme['styles']['normal'])
+	print("Example: " + theme['styles']['input'] + "(x+1)^2 " + theme['styles']['normal'] + "->" + theme['styles']['input'] + " x + 2*x + 1" + theme['styles']['normal'])
+	print()
+	print()
+	print(theme['styles']['prompt'] + "algebra.factor(eqn) - Factors a polynomial into irreducible factors. " + theme['styles']['normal'])
+	print("Example: " + theme['styles']['input'] + "x^3 - x^2 + x - 1 " + theme['styles']['normal'] + "->" + theme['styles']['input'] + " (x - 1)*(x**2 + 1)" + theme['styles']['normal'])
