@@ -153,7 +153,7 @@ def onInput(arg):
 				if large_text.endswith("Plugins") or large_text.endswith("Plugin"):
 					large_text += " | "
 				large_text += str(len(glob(themePath + "/*.iitheme")) + len(glob(config["paths"]["systemPath"] + "/themes/*.iitheme"))) + " Theme"
-				if str(len(glob(pluginPath + "/*.py"))) != 1:
+				if str(len(glob(themePath + "/*.iitheme"))) != 1:
 					large_text += "s"
 			if config["discord"]["showButtons"] == "true":
 				buttons = [{"label": "Github", "url": "https://github.com/TurboWafflz/ImaginaryInfinity-Calculator"}, {'label': 'About plugin', 'url': 'https://turbowafflz.azurewebsites.net/iicalc/viewplugin/discordrpc'}]
