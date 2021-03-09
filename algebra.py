@@ -1,10 +1,11 @@
 from sympy.solvers import solve as solveeq
-from sympy import Symbol, Eq, sympify
+from sympy import Symbol, Eq, sympify, Poly
 from sympy import simplify as ssimplify
 from sympy import expand as sexpand
 from sympy import factor as sfactor
 import re
 from systemPlugins.core import theme
+from decimal import Decimal
 
 def toValidEqn(eqn):
 	# Replace `[number][coefficient]` with `[number]*[coefficient]` and )( with )*(. E.g. (3x)(2) -> (3*x)*(2)
@@ -70,7 +71,36 @@ def expand(eqn):
 
 def factor(eqn):
 	return sfactor(toValidEqn(eqn))
-
+	
+def rational(eqn, numbers_to_test, debug=False):
+	# Find rational zeros
+	if isinstance(numbers_to_test, (int, float, Decimal)):
+		numbers_to_test = [numbers_to_test]
+	numbers_to_test = [Decimal(str(i)) for i in list(numbers_to_test)]
+	if not isinstance(eqn, list):
+		# Eqn is polynomial equation; extract coefficients
+		eqn = toValidEqn(eqn)
+		polynomial = Poly(sympify("Eq(" + eqn + ", 0)"))
+		coeffs = [Decimal(str(i)) for i in polynomial.coeffs()]
+	else:
+		# Eqn is list of coefficients
+		coeffs = [Decimal(str(i)) for i in eqn]
+	
+	numbers_to_test = [Decimal(str(i)) for i in list(numbers_to_test)]
+	
+	zeros = []
+	
+	for number in numbers_to_test:
+		stack = number * coeffs[0]
+		for i in range(1, len(coeffs)):
+			stack += coeffs[i]
+			stack *= number
+		if debug == True:
+			print(stack)
+		if stack == 0:
+			zeros.append(number)
+	return '\n'.join([str(ans) for ans in zeros])
+	
 def help():
 	print(theme['styles']['prompt'] + "algebra.solve(eqn, *, debug=False) - Solves algebraic equation." + theme['styles']['normal'])
 	print()
@@ -90,3 +120,10 @@ def help():
 	print()
 	print(theme['styles']['prompt'] + "algebra.factor(eqn) - Factors a polynomial into irreducible factors. " + theme['styles']['normal'])
 	print("Example: " + theme['styles']['input'] + "x^3 - x^2 + x - 1 " + theme['styles']['normal'] + "->" + theme['styles']['input'] + " (x - 1)*(x**2 + 1)" + theme['styles']['normal'])
+	print()
+	print()
+	print(theme['styles']['prompt'] + "algebra.rational(eqn, numbers_to_test, debug=False) - Finds the rational zeros of a polynomial function via synthetic division." + theme['styles']['normal'])
+	print()
+	print(theme['styles']['important'] + "eqn" + theme['styles']['normal'] + " - The polynomial equation, or a list of coefficients of the polynomial equation. Example: " + theme['styles']['input'] + "x^3+2x^2-5x-6" + theme['styles']['normal'] + ".")
+	print(theme['styles']['important'] + "numbers_to_test" + theme['styles']['normal'] + " - Possible rational zeros. This can be a list of numbers, or a single number.")
+	print(theme['styles']['important'] + "debug" + theme['styles']['normal'] + " - Print debug information. Defaults to False." + theme['styles']['normal'])

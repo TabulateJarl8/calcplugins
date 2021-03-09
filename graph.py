@@ -16,6 +16,7 @@ def graph(y, axisRange=[-10, 10, -10, 10], title="", points=[], grid=True, numPo
 	for i in range(0, len(y), 2):
 		# Match a number or a function call, followed by a variable or parentheses.
 		y[i] = re.sub(r"((?:\d+)|(?:[a-zA-Z]\w*\(\w+\)))((?:[a-zA-Z]\w*)|\()", r"\1*\2", y[i])
+		y[i] = re.sub(r'(\))((?:[a-zA-Z]\w*)|\()', r'\1*\2', y[i])
 
 		# Repalce ^ with **
 		y[i] = y[i].replace("^", "**")
