@@ -71,7 +71,7 @@ def expand(eqn):
 
 def factor(eqn):
 	return sfactor(toValidEqn(eqn))
-	
+
 def rational(eqn, numbers_to_test, debug=False):
 	# Find rational zeros
 	if isinstance(numbers_to_test, (int, float, Decimal)):
@@ -85,12 +85,14 @@ def rational(eqn, numbers_to_test, debug=False):
 	else:
 		# Eqn is list of coefficients
 		coeffs = [Decimal(str(i)) for i in eqn]
-	
-	numbers_to_test = [Decimal(str(i)) for i in list(numbers_to_test)]
-	
+
+	positive_numbers_to_test = [Decimal(str(abs(i))) for i in list(numbers_to_test)]
+	negative_numbers_to_test = [Decimal(str(-abs(i))) for i in list(numbers_to_test)]
+
 	zeros = []
-	
-	for number in numbers_to_test:
+
+	# Po
+	for number in positive_numbers_to_test + negative_numbers_to_test:
 		stack = number * coeffs[0]
 		for i in range(1, len(coeffs)):
 			stack += coeffs[i]
@@ -100,7 +102,7 @@ def rational(eqn, numbers_to_test, debug=False):
 		if stack == 0:
 			zeros.append(number)
 	return '\n'.join([str(ans) for ans in zeros])
-	
+
 def help():
 	print(theme['styles']['prompt'] + "algebra.solve(eqn, *, debug=False) - Solves algebraic equation." + theme['styles']['normal'])
 	print()
