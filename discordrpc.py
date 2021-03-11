@@ -142,6 +142,7 @@ def main():
 						configFile.close()
 
 def onInput(arg):
+	arg = arg[1:-1]
 	try:
 		if config["discord"]["dynamicPresence"] == "true":
 			large_text = "ImaginaryInfinity Calculator  "
