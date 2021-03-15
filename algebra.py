@@ -10,7 +10,7 @@ from decimal import Decimal
 def toValidEqn(eqn):
 	# Replace `[number][coefficient]` with `[number]*[coefficient]` and )( with )*(. E.g. (3x)(2) -> (3*x)*(2)
 	eqn = eqn.replace(" ", "").replace("^", "**")
-	eqn = re.sub(r"((?:\d+)|(?:[a-zA-Z]\w*\(\w+\)))((?:[a-zA-Z]\w*)|\()", r"\1*\2", eqn)
+	eqn = re.sub(r"((?:[a-zA-Z0-9]+)|(?:[a-zA-Z]\w*\(\w+\)))((?:[a-zA-Z]\w*)|\()", r"\1*\2", eqn)
 	eqn = re.sub(r'(\))((?:[a-zA-Z]\w*)|\()', r'\1*\2', eqn)
 	return eqn
 
@@ -25,6 +25,7 @@ def solve(eqn, *args, **kwargs):
 	# Comparing expressions using ==
 	elif eqn.count("=") == 2:
 		# Test that the 2 equal signs are next to each other
+
 		if eqn.find("==") != -1:
 			eqn = eqn.split("==")
 		else:
