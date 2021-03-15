@@ -1,5 +1,5 @@
 from sympy.solvers import solve as solveeq
-from sympy import Symbol, Eq, sympify, Poly
+from sympy import Symbol, Eq, sympify, Poly, div
 from sympy import simplify as ssimplify
 from sympy import expand as sexpand
 from sympy import factor as sfactor
@@ -104,6 +104,9 @@ def rational(eqn, numbers_to_test, debug=False):
 			zeros.append(number)
 	return '\n'.join([str(ans) for ans in zeros])
 
+def polydiv(n, d, domain='QQ'):
+	return div(toValidEqn(n), toValidEqn(d))
+
 def help():
 	print(theme['styles']['prompt'] + "algebra.solve(eqn, *, debug=False) - Solves algebraic equation." + theme['styles']['normal'])
 	print()
@@ -130,3 +133,8 @@ def help():
 	print(theme['styles']['important'] + "eqn" + theme['styles']['normal'] + " - The polynomial equation, or a list of coefficients of the polynomial equation. Example: " + theme['styles']['input'] + "x^3+2x^2-5x-6" + theme['styles']['normal'] + ".")
 	print(theme['styles']['important'] + "numbers_to_test" + theme['styles']['normal'] + " - Possible rational zeros. This can be a list of numbers, or a single number.")
 	print(theme['styles']['important'] + "debug" + theme['styles']['normal'] + " - Print debug information. Defaults to False." + theme['styles']['normal'])
+	print()
+	print()
+	print(theme['styles']['prompt'] + "algebra.polydiv(numerator, denominator, domain=\'QQ\') - Divide polynomials. Returns (solution, remainder)" + theme['styles']['normal'])
+	print("Example: " + theme['styles']['input'] + "(3x^2-2x+1), (x-1) " + theme['styles']['normal'] + "->" + theme['styles']['input'] + " (3*x + 1, 2)" + theme['styles']['normal'])
+
