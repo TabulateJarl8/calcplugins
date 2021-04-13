@@ -70,7 +70,8 @@ def main():
 	changed = False
 	if not config.has_section("discord"):
 		config.add_section("discord")
-		config["discord"]["enableRPC"] = "ask"
+	if not config.has_option('discord', 'enableRPC'):
+		config["discord"]["enableRPC"] = "true"
 		changed = True
 	if not config.has_option("discord", "dynamicPresence"):
 		config["discord"]["dynamicPresence"] = "true"
@@ -90,22 +91,6 @@ def main():
 	if not config.has_option("discord", "showversion"):
 		config["discord"]["showversion"] = "true"
 		changed = True
-	if config["discord"]["enableRPC"] == "ask":
-		yn = input("Would you like to enable Discord rich presence? (Y/n)")
-		if yn.lower() == "y":
-			config["discord"]["enableRPC"] = "true"
-			changed = True
-		elif yn.lower() == "n":
-			config["discord"]["enableRPC"] = "false"
-			changed = True
-		elif yn.lower() == "askagain":
-			config["discord"]["enableRPC"] = "ask"
-		else:
-			config["discord"]["enableRPC"] = "true"
-			changed = True
-	if changed == True:
-		with open(configPath, "w") as configFile:
-			config.write(configFile)
 
 	if config["discord"]["enableRPC"] == "true":
 		global start
@@ -134,8 +119,8 @@ def main():
 			if config["discord"]["debug"] == "true":
 				traceback.print_exc()
 			if shutil.which("discord") == None:
-				yesno = input("Discord is not detected, so rich presence cannot be run, maybe try starting discord? Would you like to disable the plugin? (Y/n)")
-				if yesno.lower() == "y" or yesno.lower() == "":
+				yesno = input("Discord is not detected, so rich presence cannot run, maybe try starting discord? Would you like to disable the plugin? (y/N)")
+				if yesno.lower() == "y":
 					config["discord"]["enableRPC"] = "false"
 					with open(configPath, "w") as configFile:
 						config.write(configFile)
