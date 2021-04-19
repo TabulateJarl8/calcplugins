@@ -92,6 +92,10 @@ def main():
 		config["discord"]["showversion"] = "true"
 		changed = True
 
+	if changed is True:
+		with open(configPath, 'w') as f:
+			config.write(f)
+
 	if config["discord"]["enableRPC"] == "true":
 		global start
 		start = str(time.time()).split(".")[0]
