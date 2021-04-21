@@ -10,11 +10,12 @@ import mpmath
 
 def toValidEqn(eqn):
 	# Replace `[number][coefficient]` with `[number]*[coefficient]` and )( with )*(. E.g. (3x)(2) -> (3*x)*(2)
-	eqn = eqn.replace(" ", "").replace("^", "**")
+	eqn = eqn.replace(" ", "").replace("^", "**").replace('pi', '@') # also replace pi with @ to prevent changing to p*i
 	eqn = re.sub(r"((?:[a-zA-Z0-9]+)|(?:[a-zA-Z]\w*\(\w+\)))((?:[a-zA-Z]\w*)|\()", r"\1*\2", eqn)
 	eqn = re.sub(r'(\))((?:[a-zA-Z]\w*)|\()', r'\1*\2', eqn)
 	mathFunctions = '|'.join([attribute for attribute in dir(mpmath) if not attribute.startswith("_")])
 	eqn = re.sub('(' + mathFunctions + '){1}\*\(', r"\1(", eqn)
+	eqn = eqn.replace('@', 'pi') # restore pi
 	return eqn
 
 def solve(eqn, *args, **kwargs):
