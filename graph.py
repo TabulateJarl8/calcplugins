@@ -1,4 +1,5 @@
 import numpy as np
+from numpy import * # for mathematical functions
 import matplotlib.pyplot as plt
 import re
 from systemPlugins.core import configPath, theme
