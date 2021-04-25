@@ -4,6 +4,7 @@ import re
 from systemPlugins.core import configPath, theme
 from configparser import ConfigParser
 import os
+from plugins import algebra
 
 config = ConfigParser()
 config.read(configPath)
@@ -14,12 +15,8 @@ def graph(y, axisRange=[-10, 10, -10, 10], title="", points=[], grid=True, numPo
 		y = [y, 'blue']
 
 	for i in range(0, len(y), 2):
-		# Match a number or a function call, followed by a variable or parentheses.
-		y[i] = re.sub(r"((?:\d+)|(?:[a-zA-Z]\w*\(\w+\)))((?:[a-zA-Z]\w*)|\()", r"\1*\2", y[i])
-		y[i] = re.sub(r'(\))((?:[a-zA-Z]\w*)|\()', r'\1*\2', y[i])
-
-		# Repalce ^ with **
-		y[i] = y[i].replace("^", "**")
+		# convert y[i] to valid python syntax
+		y[i] = algebra.toValidEqn(y[i])
 
 	# Graph settings
 	fig = plt.figure()
