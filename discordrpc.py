@@ -35,7 +35,10 @@ class settings:
 					default_selection = drpcmenu[1]
 
 					if drpcmenu[1] == "Discord Rich Presence":
-						default = utils.getDefaultBoolMenuOption(config['discord']['enableRPC'])
+						try:
+							default = utils.getDefaultBoolMenuOption(config['discord']['enableRPC'])
+						except AttributeError:
+							default = "On"
 
 						x = d.menu("Discord Rich Presence", choices=[("On", "Enable Discord RPC"), ("Off", "Disable Discord RPC")], default_item=default)
 						if x[0] == d.OK:
@@ -45,7 +48,10 @@ class settings:
 								config["discord"]["enableRPC"] = "false"
 
 					elif drpcmenu[1] == "Dynamic RPC":
-						default = utils.getDefaultBoolMenuOption(config['discord']['dynamicPresence'])
+						try:
+							default = utils.getDefaultBoolMenuOption(config['discord']['dynamicPresence'])
+						except AttributeError:
+							default = "On"
 
 						x = d.menu("Update Discord RPC with your last done calculation", choices=[("On", "Enable Dynamic RPC"), ("Off", "Disable Dynamic RPC")], default_item=default)
 						if x[0] == d.OK:
@@ -70,7 +76,10 @@ class settings:
 								config["discord"]["showAmountOfThemes"] = "false"
 
 					elif drpcmenu[1] == "Buttons":
-						default = utils.getDefaultBoolMenuOption(config['discord']['showButtons'])
+						try:
+							default = utils.getDefaultBoolMenuOption(config['discord']['showButtons'])
+						except AttributeError:
+							default = "On"
 
 						x = d.menu("Show Buttons", choices=[("On", "Show buttons in RPC"), ("Off", "Hide buttons in RPC")], default_item=default)
 						if x[0] == d.OK:
@@ -80,7 +89,10 @@ class settings:
 								config["discord"]["showButtons"] = "false"
 
 					elif drpcmenu[1] == "Debug":
-						default = utils.getDefaultBoolMenuOption(config['discord']['debug'])
+						try:
+							default = utils.getDefaultBoolMenuOption(config['discord']['debug'])
+						except AttributeError:
+							default = "On"
 
 						x = d.menu("Debug Mode", choices=[("On", "Debug mode on"), ("Off", "Debug mode off")], default_item=default)
 						if x[0] == d.OK:
@@ -90,7 +102,10 @@ class settings:
 								config["discord"]["debug"] = "false"
 
 					elif drpcmenu[1] == "iiCalc Version":
-						default = utils.getDefaultBoolMenuOption(config['discord']['showversion'])
+						try:
+							default = utils.getDefaultBoolMenuOption(config['discord']['showversion'])
+						except AttributeError:
+							default = "On"
 
 						x = d.menu("iiCalc Version", choices=[("On", "Show iiCalc version in status"), ("Off", "Don\'t show iiCalc version in status")], default_item=default)
 						if x[0] == d.OK:
