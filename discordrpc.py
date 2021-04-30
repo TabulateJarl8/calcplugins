@@ -6,62 +6,102 @@ from dialog import Dialog
 from glob import glob
 import traceback
 import shutil
+from systemPlugins import utils
+
 
 class settings:
 	choices = [("Discord RPC Settings", "Settings for the discordrpc plugin")]
+
 	def settingsPopup(tag, config):
 		if tag == "Discord RPC Settings":
-			d = Dialog()
-			drpcmenu = d.menu("Discord RPC Settings", choices=[("Discord Rich Presence", "Display ImaginaryInfinity Calculator as your status in Discord"), ("Dynamic RPC", "Update Discord RPC on calculation"), ("Plugins and Themes in RPC", "Show number of Installed Plugins/Themes"), ("Buttons", "Show buttons in RPC"), ("iiCalc Version", "Show iiCalc version"), ("Debug", "Debug Mode")], width=0, height=0)
-			if drpcmenu[1] == "Discord Rich Presence":
-				x = d.menu("Discord Rich Presence", choices=[("Enable", "Enable Discord RPC"), ("Disable", "Disable Discord RPC")])
-				if x[1] == "Enable":
-					config["discord"]["enableRPC"] = "true"
+
+			choices = [
+				("Discord Rich Presence", "Display ImaginaryInfinity Calculator as your status in Discord"),
+				("Dynamic RPC", "Update Discord RPC on calculation"),
+				("Plugins and Themes in RPC", "Show number of Installed Plugins/Themes"),
+				("Buttons", "Show buttons in RPC"),
+				("iiCalc Version", "Show iiCalc version"),
+				("Debug", "Debug Mode")
+			]
+
+			d = Dialog(autowidgetsize=True)
+
+			default_selection = choices[0][0]
+
+			while True:
+
+				drpcmenu = d.menu("Discord RPC Settings", choices=choices, cancel_label="Back", default_item=default_selection)
+				if drpcmenu[0] == d.OK:
+					default_selection = drpcmenu[1]
+
+					if drpcmenu[1] == "Discord Rich Presence":
+						default = utils.getDefaultBoolMenuOption(config['discord']['enableRPC'])
+
+						x = d.menu("Discord Rich Presence", choices=[("On", "Enable Discord RPC"), ("Off", "Disable Discord RPC")], default_item=default)
+						if x[0] == d.OK:
+							if x[1] == "On":
+								config["discord"]["enableRPC"] = "true"
+							else:
+								config["discord"]["enableRPC"] = "false"
+
+					elif drpcmenu[1] == "Dynamic RPC":
+						default = utils.getDefaultBoolMenuOption(config['discord']['dynamicPresence'])
+
+						x = d.menu("Update Discord RPC with your last done calculation", choices=[("On", "Enable Dynamic RPC"), ("Off", "Disable Dynamic RPC")], default_item=default)
+						if x[0] == d.OK:
+							if x[1] == "On":
+								config["discord"]["dynamicPresence"] = "true"
+							else:
+								config["discord"]["dynamicPresence"] = "false"
+
+					elif drpcmenu[1] == "Plugins and Themes in RPC":
+						pluginStatus = "on" if config["discord"]["showAmountOfPlugins"] == "true" else "off"
+						themeStatus = "on" if config["discord"]["showAmountOfThemes"] == "true" else "off"
+
+						x = d.checklist("Show number of installed plugins/themes", choices=[("Plugins", "Show number of installed plugins", pluginStatus), ("Themes", "Show number of installed themes", themeStatus)])
+						if x[0] == d.OK:
+							if "Plugins" in x[1]:
+								config["discord"]["showAmountOfPlugins"] = "true"
+							else:
+								config["discord"]["showAmountOfPlugins"] = "false"
+							if "Themes" in x[1]:
+								config["discord"]["showAmountOfThemes"] = "true"
+							else:
+								config["discord"]["showAmountOfThemes"] = "false"
+
+					elif drpcmenu[1] == "Buttons":
+						default = utils.getDefaultBoolMenuOption(config['discord']['showButtons'])
+
+						x = d.menu("Show Buttons", choices=[("On", "Show buttons in RPC"), ("Off", "Hide buttons in RPC")], default_item=default)
+						if x[0] == d.OK:
+							if x[1] == "On":
+								config["discord"]["showButtons"] = "true"
+							else:
+								config["discord"]["showButtons"] = "false"
+
+					elif drpcmenu[1] == "Debug":
+						default = utils.getDefaultBoolMenuOption(config['discord']['debug'])
+
+						x = d.menu("Debug Mode", choices=[("On", "Debug mode on"), ("Off", "Debug mode off")], default_item=default)
+						if x[0] == d.OK:
+							if x[1] == "On":
+								config["discord"]["debug"] = "true"
+							else:
+								config["discord"]["debug"] = "false"
+
+					elif drpcmenu[1] == "iiCalc Version":
+						default = utils.getDefaultBoolMenuOption(config['discord']['showversion'])
+
+						x = d.menu("iiCalc Version", choices=[("On", "Show iiCalc version in status"), ("Off", "Don\'t show iiCalc version in status")], default_item=default)
+						if x[0] == d.OK:
+							if x[1] == "On":
+								config["discord"]["showversion"] = "true"
+							else:
+								config["discord"]["showversion"] = "false"
 				else:
-					config["discord"]["enableRPC"] = "false"
-			elif drpcmenu[1] == "Dynamic RPC":
-				x = d.menu("Update Discord RPC with your last done calculation", choices=[("Enable", "Enable Dynamic RPC"), ("Disable", "Disable Dynamic RPC")])
-				if x[1] == "Enable":
-					config["discord"]["dynamicPresence"] = "true"
-				else:
-					config["discord"]["dynamicPresence"] = "false"
-			elif drpcmenu[1] == "Plugins and Themes in RPC":
-				if config["discord"]["showAmountOfPlugins"] == "true":
-					pluginStatus = "on"
-				else:
-					pluginStatus = "off"
-				if config["discord"]["showAmountOfThemes"] == "true":
-					themeStatus = "on"
-				else:
-					themeStatus = "off"
-				x = d.checklist("Show number of installed plugins/themes", choices=[("Plugins", "Show number of installed plugins", pluginStatus), ("Themes", "Show number of installed themes", themeStatus)])
-				if "Plugins" in x[1]:
-					config["discord"]["showAmountOfPlugins"] = "true"
-				else:
-					config["discord"]["showAmountOfPlugins"] = "false"
-				if "Themes" in x[1]:
-					config["discord"]["showAmountOfThemes"] = "true"
-				else:
-					config["discord"]["showAmountOfThemes"] = "false"
-			elif drpcmenu[1] == "Buttons":
-				x = d.menu("Show Buttons", choices=[("Enable", "Show buttons in RPC"), ("Disable", "Hide buttons in RPC")])
-				if x[1] ==  "Enable":
-					config["discord"]["showButtons"] = "true"
-				else:
-					config["discord"]["showButtons"] = "false"
-			elif drpcmenu[1] == "Debug":
-				x = d.menu("Debug Mode", choices=[("Enable", "Debug mode on"), ("Disable", "Debug mode off")])
-				if x[1] ==  "Enable":
-					config["discord"]["debug"] = "true"
-				else:
-					config["discord"]["debug"] = "false"
-			elif drpcmenu[1] == "iiCalc Version":
-				x = d.menu("iiCalc Version", choices=[("Enable", "Show iiCalc version in status"), ("Disable", "Don\'t show iiCalc version in status")])
-				if x[1] == "Enable":
-					config["discord"]["showversion"] = "true"
-				else:
-					config["discord"]["showversion"] = "false"
+					break
 		return config
+
 
 def main():
 	global config
@@ -119,16 +159,17 @@ def main():
 			else:
 				buttons = None
 			rpc.update(state="Calculating with ImaginaryInfinity Calculator", details="https://turbowafflz.gitlab.io/iicalc.html", large_image="iicalclogo", large_text=large_text, start=start, buttons=buttons)
-		except Exception as e:
+		except Exception:
 			if config["discord"]["debug"] == "true":
 				traceback.print_exc()
-			if shutil.which("discord") == None:
+			if shutil.which("discord") is None:
 				yesno = input("Discord is not detected, so rich presence cannot run, maybe try starting discord? Would you like to disable the plugin? (y/N)")
 				if yesno.lower() == "y":
 					config["discord"]["enableRPC"] = "false"
 					with open(configPath, "w") as configFile:
 						config.write(configFile)
 						configFile.close()
+
 
 def onInput(arg):
 	if arg.startswith('\''):
@@ -153,8 +194,9 @@ def onInput(arg):
 			else:
 				buttons = None
 			rpc.update(state="Calculating with ImaginaryInfinity Calculator", details="Just executed " + arg, large_image="iicalclogo", large_text=large_text, small_text="Just executed " + arg, start=start, buttons=buttons)
-	except Exception as e:
+	except Exception:
 		if config["discord"]["debug"] == "true":
 			traceback.print_exc()
+
 
 main()
