@@ -111,6 +111,74 @@ def rational(eqn, numbers_to_test, debug=False):
 def polydiv(n, d, domain='QQ'):
 	return div(toValidEqn(n), toValidEqn(d))
 
+def synthetic(divisor: int, dividend: str, quiet=False):
+	eqn = toValidEqn(dividend)
+	eqn = sympify("Eq(" + eqn + ", 0)")
+	symbol = list(eqn.free_symbols)[0]
+	eqn = Poly(eqn, symbol)
+	coeffs = eqn.all_coeffs()
+	current = coeffs[0]
+
+	new_coeffs = []
+	middle_numbers = ['']
+
+	for coefficient in coeffs[1:]:
+		new_coeffs.append(current)
+		current = Decimal(str(divisor)) * Decimal(str(current))
+		middle_numbers.append(current)
+		current += Decimal(str(coefficient))
+
+	coefficient_printable = ''
+	middle_numbers_printable = ''
+	new_coeffs_printable = ''
+	for coef, num, new_coef in zip(coeffs, middle_numbers, new_coeffs + [current]):
+		coef = str(coef)
+		num = str(num)
+		new_coef = str(new_coef)
+
+		# pad numbers with space
+		max_length_number = max(len(coef), len(num), len(new_coef))
+
+		coef = coef.rjust(max_length_number)
+		num = num.rjust(max_length_number)
+		new_coef = new_coef.rjust(max_length_number)
+
+		coefficient_printable = coefficient_printable + '    ' + coef
+		middle_numbers_printable = middle_numbers_printable + '    ' + num
+		new_coeffs_printable = new_coeffs_printable + '    ' + new_coef
+
+	# remove extra whitespace
+	coefficient_printable = '|' + coefficient_printable[4:]
+	middle_numbers_printable = '|' + middle_numbers_printable[4:]
+	new_coeffs_printable = ' ' + new_coeffs_printable[4:]
+
+	if not quiet:
+		print(theme['styles']['normal'] + str(divisor) + '  ' + coefficient_printable)
+
+		print('   \u001b[4m' + middle_numbers_printable + '\u001b[0m')
+
+		print(theme['styles']['normal'] + '   ' + new_coeffs_printable)
+
+		print()
+
+		degree = len(new_coeffs)
+
+		equation = ''
+		for coef in new_coeffs:
+			if coef != 0:
+				# skip coefs that are 0
+				if degree != len(new_coeffs) and coef > 0:
+					# not first number and positive
+					equation += '+'
+				equation += str(coef) if coef != 1 else ''
+				equation += str(symbol)
+				if degree != 1:
+					equation += f'^{degree}'
+				degree -= 1
+
+	return equation
+
+
 def help():
 	print(theme['styles']['prompt'] + "algebra.solve(eqn, *, debug=False) - Solves algebraic equation." + theme['styles']['normal'])
 	print()
