@@ -209,4 +209,8 @@ def help():
 	print()
 	print(theme['styles']['prompt'] + "algebra.polydiv(numerator, denominator, domain=\'QQ\') - Divide polynomials. Returns (solution, remainder)" + theme['styles']['normal'])
 	print("Example: " + theme['styles']['input'] + "(3x^2-2x+1), (x-1) " + theme['styles']['normal'] + "->" + theme['styles']['input'] + " (3*x + 1, 2)" + theme['styles']['normal'])
+	print()
+	print()
+	print(theme['styles']['prompt'] + "algebra.synthetic(divisor: int, dividend: str, quiet=False) - Perform synthetic division on a polynomial. Returns the resulting equation" + theme['styles']['normal'])
+	print("Example: " + theme['styles']['input'] + "3, \"x^3-2x^2-5x+6\" " + theme['styles']['normal'] + "->" + theme['styles']['input'] + " x^3+x^2-2x" + theme['styles']['normal'])
 
