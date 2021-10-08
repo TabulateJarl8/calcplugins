@@ -161,7 +161,7 @@ def synthetic(divisor: int, dividend: str, quiet=False):
 
 		print()
 
-		degree = len(new_coeffs)
+		degree = len(new_coeffs) - 1
 
 		equation = ''
 		for coef in new_coeffs:
@@ -171,12 +171,13 @@ def synthetic(divisor: int, dividend: str, quiet=False):
 					# not first number and positive
 					equation += '+'
 				equation += str(coef) if coef != 1 else ''
-				equation += str(symbol)
-				if degree != 1:
+				if degree != 0:
+					equation += str(symbol)
+				if degree > 1:
 					equation += f'^{degree}'
-				degree -= 1
+			degree -= 1
 
-	return equation
+	return equation.lstrip('+')
 
 
 def help():
