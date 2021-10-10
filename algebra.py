@@ -155,9 +155,9 @@ def synthetic(divisor: int, dividend: str, quiet=False):
 	if not quiet:
 		print(theme['styles']['normal'] + str(divisor) + '  ' + coefficient_printable)
 
-		print('   \u001b[4m' + middle_numbers_printable + '\u001b[0m')
+		print((len(str(divisor)) + 2) * ' ' + '\u001b[4m' + middle_numbers_printable + '\u001b[0m')
 
-		print(theme['styles']['normal'] + '   ' + new_coeffs_printable)
+		print(theme['styles']['normal'] + (len(str(divisor)) + 2) * ' ' + new_coeffs_printable)
 
 		print()
 
